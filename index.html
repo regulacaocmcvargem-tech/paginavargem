@@ -192,6 +192,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(139, 44, 90, 0.15);
+            min-height: 60px;
         }
 
         .link-button:hover {
@@ -215,6 +216,18 @@
         .link-button span {
             font-size: 0.95rem;
             line-height: 1.4;
+        }
+
+        /* Estilo especial para o botão de Painéis Estratégicos */
+        .highlight-button {
+            box-shadow: 0 4px 15px rgba(139, 44, 90, 0.25);
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+            border: 2px solid #f3e8ee;
+        }
+
+        .highlight-button:hover {
+            box-shadow: 0 8px 30px rgba(139, 44, 90, 0.35);
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
         }
 
         /* Footer */
@@ -343,7 +356,7 @@
                     <i class="fas fa-hospital"></i>
                     <div class="title-section">
                         <h1 class="main-title">Ferramentas Administrativas</h1>
-                        <p class="subtitle">Diretoria de Regulação em Saúde/CEAPS</p>
+                        <p class="subtitle">Diretoria de Regulação em Saúde</p>
                         <p class="subtitle">Central de Marcação de Consultas – Referência Enfermeira Giovanna</p>
                         <p class="subtitle">Referência Adminsitrativa Distrital/CMC Vargem das Flores - Carolina Telefone - 3198-6758</p>
                         <p class="subtitle">Página criada por Ana P. A.Silva Matric. 201704/ Assistente Adm. Ceaps</p>
@@ -369,42 +382,26 @@
 
            <div class="categories-grid">
                 
-                <!-- Painéis Estratégicos para Acompanhamentos: -->
+                <!-- Painéis Estratégicos para Controle dos Fluxos: -->
                 <section class="category-section">
                     <h2 class="category-title">
                         <i class="fas fa-chart-line"></i>
-                        Painéis Estratégicos para Acompanhamentos:
+                        Painéis Estratégicos para Controle dos Fluxos:
                     </h2>
                     <div class="links-grid">
-                        <a href="https://regulacaocmcvargem-tech.github.io/pendenciasvargem/" class="link-button" target="_blank">
+                        <a href="https://regulacaocmcvargem-tech.github.io/pendenciasvargem/" class="link-button highlight-button" target="_blank">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span>Controle de Pendências 
                                 Distrito Vargem das Flores</span>
                         </a>
-                        <a href="#" class="link-button" target="_blank">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Total/Agendamentos Realizados (Mês)</span>
-                        </a>
-                        <a href="#" class="link-button" target="_blank">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Total/Cancelamentos Realizados (Mês)</span>
-                        </a>
-                        <a href="#" class="link-button" target="_blank">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Total/Pacientes Recepcionados (Mês)</span>
-                        </a>
-                        <a href="#" class="link-button" target="_blank">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Total/Faltosos (Mês)</span>
-                        </a>
                     </div>
                 </section>
 
-                <!-- Consulta Especializada -->
+                <!-- Consulta Especializada: -->
                 <section class="category-section">
                     <h2 class="category-title">
                         <i class="fas fa-stethoscope"></i>
-                        Consulta Especializada
+                        Consulta Especializada:
                     </h2>
                     <div class="links-grid">
                         <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/resumo_fluxos.html" class="link-button" target="_blank">
@@ -419,69 +416,43 @@
                             <i class="fas fa-list-ul"></i>
                             <span>Oferta Baixa Demanda</span>
                         </a>
+                    </div>
+                </section>
+
+                <!-- Notas Técnicas -->
+                <section class="category-section">
+                    <h2 class="category-title">
+                        <i class="fas fa-stethoscope"></i>
+                        Notas Técnicas Central de Marcação de Consultas:
+                    </h2>
+                    <div class="links-grid">
                         <a href="https://portal.contagem.mg.gov.br/nota-tecnica" class="link-button" target="_blank">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Notas Técnicas Geral/Diretoria de Regulação</span>
+                        </a>
+                         <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2025%20-%202025%20-%20Regula%C3%A7%C3%A3o%20de%20Consultas%20Especializadas%20via%20sistema%20VIVVER.pdf" class="link-button" target="_blank">
                             <i class="fas fa-list-ul"></i>
-                            <span>Notas Técnicas/Regulação</span>
+                            <span>NT 25 - 2025 - Regulação de Consultas Especializadas via sistema VIVVER</span>
                         </a>
-                    </div>
-                </section>
-
-                  <!-- Feluma -->
-                <section class="category-section">
-                    <h2 class="category-title">
-                        <i class="fas fa-laptop-medical"></i>
-                        Feluma
-                    </h2>
-                    <div class="links-grid">
-                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2025%20-%202025%20-%20Regula%C3%A7%C3%A3o%20de%20Consultas%20Especializadas%20via%20sistema%20VIVVER.pdf" class="link-button" target="_blank">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>NT-25/2025 – Teleconsultoria Regulação</span>
+                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2026%20-%202025%20-%20Infertilidade%20Conjugal(1).pdf" class="link-button" target="_blank">
+                            <i class="fas fa-list-ul"></i>
+                            <span>NT 26 - 2025 - Infertilidade Conjugal</span>
                         </a>
-                        <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="link-button" target="_blank">
-                            <i class="fas fa-file-medical-alt"></i>
-                            <span>Notas Técnicas – Diretoria de Regulação</span>
+                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2008%20-%202023%20-%20Crit%C3%A9rios%20de%20encaminhamento%20ao%20Amb%20endoc%20e%20obeso%20grave%20em%20BH(1).pdf" class="link-button" target="_blank">
+                            <i class="fas fa-list-ul"></i>
+                            <span>NT 08/2023 — Critérios de encaminhamento ao ambulatório de endocrinologia (obeso grave – BH) (PDF)</span>
                         </a>
-                        <a href="https://portal-feluma.sydle.com/home" class="link-button" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            <span>Para Acessar a Plataforma – Clique Aqui</span>
+                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/Formul%C3%A1rio%20para%20acompanhamento%20da%20obesidade.pdf" class="link-button" target="_blank">
+                            <i class="fas fa-list-ul"></i>
+                            <span>Formulário para acompanhamento da obesidade (PDF)</span>
                         </a>
-                        <a href="https://www.youtube.com/watch?v=1UdBOCDlIvA" class="link-button" target="_blank">
-                            <i class="fab fa-youtube"></i>
-                            <span>Para Assistir o Tutorial – Youtube (3min.)</span>
+                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2011%20-%202022%20-%20Aproveitamento%20de%20vagas%20de%20Consultas%20Especializadas.pdf" class="link-button" target="_blank">
+                            <i class="fas fa-list-ul"></i>
+                            <span>NT 11/2022 — Aproveitamento de vagas de Consultas Especializadas (PDF)</span>
                         </a>
-                        <a href="https://forms.office.com/pages/responsepage.aspx?id=6TkneO0BV0yBmaJIQh4A4v7lUCKmmeREvVUmW50PDW5UMzRaUlRFRjI0N01LMERVWjdPQlY5ODlUWS4u&route=shorturl" class="link-button" target="_blank">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Ainda sem cadastro? Preencha – Clique Aqui</span>
-                        </a>
-                    </div>
-                </section>
-
-                <!-- Exames -->
-                <section class="category-section">
-                    <h2 class="category-title">
-                        <i class="fas fa-microscope"></i>
-                        Exames
-                    </h2>
-                    <div class="links-grid">
-                        <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/RESUMO_DOS_FLUXOS_EXAMES.html" class="link-button" target="_blank">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>Exames/Resumo dos Fluxos</span>
-                        </a>
-                        <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/MEDIA_COMPLEXIDADE.html" class="link-button" target="_blank">
-                            <i class="fas fa-vial"></i>
-                            <span>Lista Exames Média Complexidade</span>
-                        </a>
-                        <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/EXAMES_DE_OFTALMO.html" class="link-button" target="_blank">
-                            <i class="fas fa-eye"></i>
-                            <span>Lista Exames Oftalmologia</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1Xra6v8JSul5QdI5FLfnlRvPoxO7DrYvIDrWOliaL2r8/edit?pli=1&gid=0#gid=0" class="link-button" target="_blank">
-                            <i class="fas fa-key"></i>
-                            <span>Códigos Autorização de AIH</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1s_HDG2-eBdYVaHdw_4e2q2ORuUePdZuLJQmIT7Z-esI/edit?pli=1&gid=0#gid=0" class="link-button" target="_blank">
-                            <i class="fas fa-ban"></i>
-                            <span>Exames sem Prestador</span>
+                        <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/Ficha%20de%20encaminhamento%20para%20a%20Cl%C3%ADnica%20de%20Dor.pdf" class="link-button" target="_blank">
+                            <i class="fas fa-list-ul"></i>
+                            <span>Ficha de encaminhamento para a Clínica de Dor</span>
                         </a>
                     </div>
                 </section>
@@ -490,12 +461,12 @@
                 <section class="category-section">
                     <h2 class="category-title">
                         <i class="fas fa-phone-alt"></i>
-                        Telefones Úteis
+                        Telefones Úteis:
                     </h2>
                     <div class="links-grid">
                         <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/CEAPS_TELEFONES.html" class="link-button" target="_blank">
                             <i class="fas fa-phone-square"></i>
-                            <span>Telefones Ceaps</span>
+                            <span>Telefones Diretoria de REgulação</span>
                         </a>
                         <a href="https://regulacaocmcvargem-tech.github.io/paginavargem/TELEFONES_IRIA_DINIZ.html" class="link-button" target="_blank">
                             <i class="fas fa-phone-square"></i>
@@ -528,16 +499,12 @@
                 <section class="category-section">
                     <h2 class="category-title">
                         <i class="fas fa-link"></i>
-                        Links Importantes
+                        Links Importantes:
                     </h2>
                     <div class="links-grid">
                         <a href="https://www.contagem-mg.vivver.com/desktop" class="link-button" target="_blank">
                             <i class="fas fa-desktop"></i>
                             <span>Sistema Vivver</span>
-                        </a>
-                        <a href="https://portal.contagem.mg.gov.br/nota-tecnica" class="link-button" target="_blank">
-                            <i class="fas fa-file-medical"></i>
-                            <span>Notas Técnicas Diretoria de Regulação</span>
                         </a>
                         <a href="https://portal.contagem.mg.gov.br/" class="link-button" target="_blank">
                             <i class="fas fa-building"></i>
@@ -612,7 +579,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Diretoria de Regulação em Saúde - CEAPS/CMC. Todos os direitos reservados.</p>
+            <p>&copy; 2026 Diretoria de Regulação em Saúde/CMC. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -729,29 +696,5 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
