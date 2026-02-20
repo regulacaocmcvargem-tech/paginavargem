@@ -1,1199 +1,727 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Especialidades Médicas - Sistema de Agendamento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .filter-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            color: #6b7280;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .filter-btn.active {
-            background: #9C4A6F;
-            color: white;
-            border-color: #9C4A6F;
-        }
-        
-        .filter-btn:hover:not(.active) {
-            border-color: #9C4A6F;
-            color: #9C4A6F;
-        }
-        
-        .status-badge.low-demand {
-            background: #dcfce7;
-            color: #166534;
-        }
-        
-        .status-badge.high-demand {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .specialty-card {
-            transition: all 0.3s ease;
-        }
-        
-        .specialty-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .stats-card {
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .stats-card.low-demand {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border-color: #bbf7d0;
-        }
-        
-        .stats-card.high-demand {
-            background: linear-gradient(135deg, #fffbeb, #fef3c7);
-            border-color: #fde68a;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diretoria de Regulação/CEAPS/CMC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .header {
+      background: #9C4A6F;
+      color: white;
+      padding: 20px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .header.hidden { transform: translateY(-100%); }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .header-left { flex: 1; min-width: 300px; }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .header-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .header-info {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      text-align: right;
+    }
+
+    .search-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      border: none;
+    }
+
+    .search-field {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9aa0a6;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 44px 12px 42px;
+      border: 2px solid #9C4A6F;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #9C4A6F;
+      box-shadow: 0 0 0 3px rgba(156, 74, 111, 0.15);
+    }
+
+    .clear-inline {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #6c757d;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .clear-inline:hover { background: rgba(0,0,0,0.06); }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .content-section {
+      background: white;
+      margin-bottom: 30px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-header {
+      background: #9C4A6F;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .section-header i { font-size: 1.5rem; opacity: 0.9; }
+
+    .section-title { font-size: 1.4rem; font-weight: 600; margin: 0; }
+
+    .section-content { padding: 30px; }
+
+    .intro-text {
+      font-size: 1.1rem;
+      color: #6c757d;
+      margin-bottom: 0;
+      line-height: 1.8;
+    }
+
+    .subsection-title {
+      color: #495057;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 25px 0 15px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .step-list {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .step-list ol { margin-left: 20px; color: #495057; }
+    .step-list ol li { margin: 10px 0; line-height: 1.7; }
+    .step-list ol li strong { color: #9C4A6F; }
+    .step-list ol li ul { margin-top: 10px; }
+
+    .info-box {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border: 1px solid #ffcc02;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 5px solid #ff9800;
+    }
+
+    .info-box h4 { color: #e65100; margin-bottom: 10px; font-size: 1.1rem; }
+    .info-box p { color: #bf360c; margin: 8px 0; line-height: 1.6; }
+    .info-box ul, .info-box ol { margin: 10px 0 10px 20px; color: #bf360c; }
+    .info-box ul li, .info-box ol li { margin: 5px 0; }
+
+    .success-box {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border: 1px solid #81c784;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 5px solid #4caf50;
+    }
+
+    .success-box h4 { color: #2e7d32; margin-bottom: 10px; font-size: 1.1rem; }
+    .success-box p { color: #1b5e20; margin: 8px 0; line-height: 1.6; }
+    .success-box ul { margin: 10px 0 10px 20px; color: #1b5e20; }
+    .success-box ul li { margin: 5px 0; }
+
+    .specialty-list {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid #2196f3;
+    }
+
+    .specialty-list ul {
+      columns: 2;
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      column-gap: 20px;
+      margin: 10px 0;
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .specialty-list ul li {
+      margin: 8px 0;
+      color: #1565c0;
+      font-weight: 500;
+      break-inside: avoid;
+    }
+
+    /* Estilo para os botões de nota técnica */
+    .nt-button-container {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px solid #e9ecef;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nt-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #9C4A6F 0%, #7a3a57 100%);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(156, 74, 111, 0.3);
+    }
+
+    .nt-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(156, 74, 111, 0.4);
+      background: linear-gradient(135deg, #7a3a57 0%, #9C4A6F 100%);
+    }
+
+    .nt-link:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(156, 74, 111, 0.3);
+    }
+
+    .nt-link i {
+      font-size: 1.1rem;
+    }
+
+    .footer {
+      background: #9C4A6F;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 50px;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .footer i { font-size: 2rem; margin-bottom: 15px; color: #fff; }
+    .footer p { margin: 8px 0; opacity: 0.9; }
+
+    mark {
+      background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .search-match {
+      outline: 2px solid rgba(156, 74, 111, 0.25);
+      border-radius: 10px;
+    }
+
+    .search-hidden { display: none !important; }
+
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; text-align: center; gap: 15px; }
+      .header-right { align-items: center; }
+      .header-title { font-size: 1.4rem; }
+      .container { margin-top: 20px; padding: 15px; }
+      .section-content { padding: 20px; }
+      .specialty-list ul { columns: 1; -webkit-columns: 1; -moz-columns: 1; }
+      .nt-link {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title { font-size: 1.2rem; }
+      .search-input { padding: 10px 44px 10px 42px; }
+      .container { margin-top: 20px; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-[#9C4A6F] to-[#7d3a59] text-white py-6 shadow-lg">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-center">
-                <div class="text-center">
-                    <div class="flex items-center justify-center gap-3 mb-2">
-                        <i class="fas fa-user-md text-2xl"></i>
-                        <h1 class="text-2xl md:text-3xl font-bold">Diretoria de Regulação/CEAPS/CMC - Especialidades</h1>
-                    </div>
-                    <p class="text-pink-100">Sistema de Agendamento e Procedimentos</p>
-                    <p class="text-lg text-pink-100">Página Criada por Ana P. A. Silva Matr. 201704/Assis. Adm Ceaps</p>
-                </div>
-            </div>
+
+<body>
+  <div class="header" id="header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="header-title">Diretoria de Regulação em Saúde/Especialidades</h1>
+        <p class="header-subtitle">Central de Marcação de Consultas</p>
+        <p class="header-subtitle">Referência do Setor: Enfermeira Giovanna</p>
+      </div>
+
+      <div class="header-right">
+        <div class="header-info">
+          <div>Página criada por Ana P. A. Silva Matr.201704</div>
+          <div>Assistente Administrativo - Diretoria de Regulação em Saúde</div>
         </div>
-    </header>
-
-    <div class="container mx-auto px-4 py-8">
-        <!-- Search and Filter Section -->
-        <div class="mb-8">
-            <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
-                <!-- Search Input -->
-                <div class="relative flex-1 max-w-md">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input 
-                        type="text" 
-                        id="searchInput"
-                        placeholder="Buscar especialidade..." 
-                        class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#9C4A6F] focus:outline-none"
-                    >
-                </div>
-                
-                <!-- Filter Buttons -->
-                <div class="flex gap-2">
-                    <button class="filter-btn active" onclick="filterSpecialties('all')">
-                        <i class="fas fa-list mr-2"></i>
-                        Todas
-                        <span class="ml-2 bg-white bg-opacity-20 px-2 py-1 rounded-full text-xs">48</span>
-                        
-                    </button>
-                    <button class="filter-btn" onclick="filterSpecialties('low')">
-                        <i class="fas fa-arrow-down mr-2"></i>
-                        Baixa Demanda
-                        <span class="ml-2 bg-white bg-opacity-20 px-2 py-1 rounded-full text-xs">11</span>
-                    </button>
-                    <button class="filter-btn" onclick="filterSpecialties('high')">
-                        <i class="fas fa-arrow-up mr-2"></i>
-                        Alta Demanda
-                        <span class="ml-2 bg-white bg-opacity-20 px-2 py-1 rounded-full text-xs">37</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="stats-card rounded-xl p-6 text-center">
-                <div class="flex items-center justify-center mb-3">
-                    <i class="fas fa-chart-bar text-3xl text-[#9C4A6F]"></i>
-                </div>
-                <h3 class="text-gray-600 font-medium mb-1">Total de Especialidades</h3>
-                <p class="text-3xl font-bold text-gray-800" id="totalCount">47</p>
-            </div>
-            
-            <div class="stats-card low-demand rounded-xl p-6 text-center">
-                <div class="flex items-center justify-center mb-3">
-                    <i class="fas fa-arrow-down text-3xl text-green-600"></i>
-                </div>
-                <h3 class="text-gray-600 font-medium mb-1">Baixa Demanda</h3>
-                <p class="text-3xl font-bold text-green-700" id="lowDemandCount">12</p>
-            </div>
-            
-            <div class="stats-card high-demand rounded-xl p-6 text-center">
-                <div class="flex items-center justify-center mb-3">
-                    <i class="fas fa-arrow-up text-3xl text-amber-600"></i>
-                </div>
-                <h3 class="text-gray-600 font-medium mb-1">Alta Demanda</h3>
-                <p class="text-3xl font-bold text-amber-700" id="highDemandCount">36</p>
-            </div>
-        </div>
-
-        <!-- Specialties Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="specialtiesGrid">
-            <!-- Low Demand Specialties -->
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-x-ray mr-2 text-green-600"></i>
-                        MAMOGRAFIA BILATERAL PARA RASTREAMENTO
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema/ Tela da solicitação, tipo de serviço, media complexidade.
-                    <br><br>
-                    <strong>Critério:</strong> Mulheres 50 a 69 anos - Bienal
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stethoscope mr-2 text-green-600"></i>
-                        MASTOLOGIA
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema/ Tela da solicitaçãO de procedimento de serviço/Consulta especializada.
-                </div>
-            </div>
-
-             <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stethoscope mr-2 text-green-600"></i>
-                        CIRURGIA AMBULATORIAL
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema/ Tela da solicitaçãO de procedimento de serviço/Consulta especializada.
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-microscope mr-2 text-green-600"></i>
-                        RETOSSIGMOIDOSCOPIA
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema/ Tela da solicitação, Aba média complexidade.
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-baby mr-2 text-green-600"></i>
-                        ULTRASSONOGRAFIA OBSTÉTRICA
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Não passa por regulação, agendamento realizado no sistema - Tela da solicitação - tipo de serviço - média complexidade.
-                    <br><br>
-                    <strong>Critério:</strong> Após 22 semanas de gestação
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-heartbeat mr-2 text-green-600"></i>
-                        ULTRASSONOGRAFIA TRANSLUCÊNCIA NUCAL
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema/ Tela da solicitação, tipo de serviço, media complexidade.
-                    <br><br>
-                    <strong>Critério:</strong> 11 a 14 semanas de gestação
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-dumbbell mr-2 text-green-600"></i>
-                        FISIOTERAPIA
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    De acordo com o Memorando-SEI Nº. 324/2025, os agendamentos via sistema estão suspensos no momento, gentileza ler o memorando.
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-green-600"></i>
-                        INFECTOLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                   Aguardar mudanças até a elaboração da NT o Agendamento será realizado por telefone/Contatos: 3058-1597 ou via email: saecontagem@yahoo.com
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-cut mr-2 text-green-600"></i>
-                        CIR. VASCULAR - PÉ DIABÉTICO
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Agendamento realizado direto no sistema, não possui fila de espera.
-                </div>
-            </div>
-
-             <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stethoscope mr-2 text-green-600"></i>
-                        EMULTI - PSCOLOGIA, ASSISTENTE SOCIAL, FISIOTERAPIA, FONO, T.O., EDUCADOR FISICO, GINECOLOGIA, PEDIATRIA, PSIQUIATRIA
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Paciente deverá pegar encaminhamento com o profissional médico da Unidade básica de Saúde para que o mesmo passe por
-                    matriciamento pela equipe Emulti e após o caso ser avaliado, o mesmo será agendado pela Unidade em agenda interna.
-                </div>
-            </div>
-
-             <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stethoscope mr-2 text-green-600"></i>
-                        PSIQUIATRIA ADULTO
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Paciente deverá pegar encaminhamento com o profissional médico da Unidade básica de Saúde para que o mesmo passe por
-                    matriciamento pela equipe Emulti e após o caso ser avaliado, o mesmo será agendado pela Unidade básica de Saúde em agenda interna/
-                    Exceto ás Unidades Básicas Bela Vista e Perobas que agendam em outras unidades.
-                </div>
-            </div>
-
-            <div class="specialty-card low-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="low">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stethoscope mr-2 text-green-600"></i>
-                        PSIQUIATRIA INFANTIL
-                    </h3>
-                    <span class="status-badge low-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Baixa Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Paciente deverá pegar encaminhamento com o profissional médico da Unidade básica de Saúde para que o mesmo passe por
-                    matriciamento pela equipe Emulti e após o caso ser avaliado, o mesmo será agendado pela Unidade em agenda interna/ Agenda Via Google Forms.
-                </div>
-            </div>
-
-            <!-- High Demand Specialties -->
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-brain mr-2 text-amber-600"></i>
-                        ELETROENCEFALOGRAMA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Encaminhar para a diretorira de Regulação/Ceaps setor: Média Complexidade
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-female mr-2 text-amber-600"></i>
-                        COLPOSCOPIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Encaminhar para a diretoria de regulação - CEAPS/Central de Marcação de Consultas, especialidade deve ser regulada pelo médico regulador, verificar se a guia se encontra lançada no sistema antes de enviar.
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-allergies mr-2 text-amber-600"></i>
-                        ALERGISTA/ADULTO E INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                   Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-heartbeat mr-2 text-amber-600"></i>
-                        ANGIOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-             <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-heartbeat mr-2 text-amber-600"></i>
-                        ASSISTÊNCIA A SAÚDE TRANS E TRAVESTI
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-heart mr-2 text-amber-600"></i>
-                        CARDIOLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        CARDIOLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-head-side-mask mr-2 text-amber-600"></i>
-                        CIRURGIA CABEÇA E PESCOÇO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-cut mr-2 text-amber-600"></i>
-                        CIRURGIA GERAL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        CIRURGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-user-md mr-2 text-amber-600"></i>
-                        CIRURGIA PLÁSTICA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-lungs mr-2 text-amber-600"></i>
-                        CIRURGIA TORÁCICA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-procedures mr-2 text-amber-600"></i>
-                        COLOPROCTOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-hand-paper mr-2 text-amber-600"></i>
-                        DERMATOLOGIA - HANSENÍASE
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                   Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-user-md mr-2 text-amber-600"></i>
-                        DERMATOLOGIA GERAL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-weight mr-2 text-amber-600"></i>
-                        ENDOCRINOLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                   Encaminhar para a diretoria de regulação - CEAPS/Central de Marcação de Consultas, especialidade deve ser regulada pelo médico regulador, verificar se a guia se encontra lançada no sistema antes de enviar.
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        ENDOCRINOLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-stomach mr-2 text-amber-600"></i>
-                        GASTROENTEROLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-user-clock mr-2 text-amber-600"></i>
-                        GERIATRIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-tint mr-2 text-amber-600"></i>
-                        HEMATOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-virus mr-2 text-amber-600"></i>
-                        INFECTOLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-kidneys mr-2 text-amber-600"></i>
-                        NEFROLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        NEFROLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-brain mr-2 text-amber-600"></i>
-                        NEUROCIRURGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-brain mr-2 text-amber-600"></i>
-                        NEUROLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        NEUROLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-tooth mr-2 text-amber-600"></i>
-                        ODONTOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                  Encaminhar para a diretoria de regulação - CEAPS/Central de Marcação de Consultas, especialidade deve ser regulada pelo médico regulador, verificar se a guia se encontra lançada no sistema antes de enviar.
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-eye mr-2 text-amber-600"></i>
-                        OFTALMOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-bone mr-2 text-amber-600"></i>
-                        ORTOPEDIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-ear-listen mr-2 text-amber-600"></i>
-                        OTORRINO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-cut mr-2 text-amber-600"></i>
-                        PEQUENAS CIRURGIAS UROLÓGICAS
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-lungs mr-2 text-amber-600"></i>
-                        PNEUMOLOGIA ADULTO
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-child mr-2 text-amber-600"></i>
-                        PNEUMOLOGIA INFANTIL
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-tint mr-2 text-amber-600"></i>
-                        PROCEDIMENTOS HEMATOLÓGICOS
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-            
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-kidneys mr-2 text-amber-600"></i>
-                        REUMATOLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-
-            <div class="specialty-card high-demand bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg" data-demand="high">
-                <div class="flex items-start justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex-1">
-                        <i class="fas fa-male mr-2 text-amber-600"></i>
-                        UROLOGIA
-                    </h3>
-                    <span class="status-badge high-demand px-3 py-1 rounded-full text-xs font-medium ml-2">
-                        Alta Demanda
-                    </span>
-                </div>
-                <div class="text-gray-700 text-sm leading-relaxed">
-                    <i class="fas fa-info-circle text-[#9C4A6F] mr-2"></i>
-                    Seguir o novo fluxo da NT 025/2025 e NT Conjunta 032. Orientações referente a Teleconsultoria.
-                    
-                     <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <footer class="text-center mt-12 py-6 border-t-2" style="border-color: #9C4A6F; background: linear-gradient(135deg, #f8f9fa, #fff5f7);">
-            <p class="font-medium" style="color: #9C4A6F;">
-                <i class="fas fa-info-circle mr-2"></i>
-                Sistema de Agendamento de Especialidades Médicas - Guia de Procedimentos
-            </p>
-            <p class="text-gray-600 text-sm mt-2">
-                Última atualização: <span id="currentDate"></span>
-            </p>
-        </footer>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Set current date
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR');
+  <div class="search-container">
+    <div class="search-box">
+      <div class="search-field">
+        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar na página..." />
+        <button id="clearInlineButton" class="clear-inline" type="button" aria-label="Limpar pesquisa" title="Limpar">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        const specialtyCards = document.querySelectorAll('.specialty-card');
+  <main class="container">
 
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            let visibleCount = 0;
+    <!-- SEÇÃO 1 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <h2 class="section-title">Resumo dos Fluxos para Solicitação de Consultas Especializadas</h2>
+      </div>
 
-            specialtyCards.forEach(card => {
-                const specialtyName = card.querySelector('h3').textContent.toLowerCase();
-                const observation = card.querySelector('.text-gray-700').textContent.toLowerCase();
-                
-                if (specialtyName.includes(searchTerm) || observation.includes(searchTerm)) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+      <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Essa página apresenta o resumo dos fluxos para solicitação de consultas especializadas via sistema Vivver,
+            organizando a lista das especialidades por demanda e especificando os canais apropriados para realizar a
+            solicitação.
+          </p>
+        </div>
+      </div>
+    </section>
 
-            updateCounts();
+    <!-- SEÇÃO 2 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <h2 class="section-title">Especialidades que não exigem Teleconsultoria</h2>
+      </div>
+
+      <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Ressaltamos que, para as especialidades citadas logo abaixo, não é necessário anexar o relatório Feluma,
+            contudo, é obrigatório a inserção dos dados clínicos no sistema para que as guias sejam reguladas, não sendo
+            necessário o envio da guia física. Enfatizamos que as guias emitidas pelo CAE Iria Diniz/CAE Ressaca devem ser
+            cadastradas no sistema e anexada cópia da guia para que a mesma seja regulada.
+          </p>
+        </div>
+
+        <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+          <ul>
+            <li>Assistência a Saúde Trans e Travesti</li>
+            <li>Cirurgia Ambulatorial</li>
+            <li>Cirurgia Geral</li>
+            <li>Cirurgia Infantil</li>
+            <li>Cirurgia Plástica</li>
+            <li>Odontologia</li>
+            <li>Oftalmologia</li>
+            <li>Pequenas Cirurgias Urológicas</li>
+            <li>Procedimentos Hematológicos</li>
+          </ul>
+        </div>
+
+        <div class="nt-button-container">
+          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Acessar NT 25/2025</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <h2 class="section-title">Especialidades que exigem Teleconsultoria</h2>
+      </div>
+
+      <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Para essas especialidades é obrigatório anexar relatório da Teleconsultoria, conforme NT 25/2025 e NT CONJ-032.
+          </p>
+        </div>
+
+        <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+          <ul>
+            <li>Alergista Adulto/Infantil</li>
+            <li>Angiologia</li>
+            <li>Cardiologia Adulto</li>
+            <li>Cardiologia Infantil</li>
+            <li>Cirurgia Cabeça e Pescoço</li>
+            <li>Cirurgia Torácica</li>
+            <li>Coloproctologia</li>
+            <li>Dermatologia Geral</li>
+            <li>Dermatologia - Hanseníase</li>
+            <li>Endocrinologia Adulto</li>
+            <li>Endocrinologia Infantil</li>
+            <li>Gastroenterologia Infantil</li>
+            <li>Gastroenterologia Adulto</li>
+            <li>Geriatra</li>
+            <li>Hematologia</li>
+            <li>Infectologia Adulto</li>
+            <li>Nefrologia Adulto</li>
+            <li>Nefrologia Infantil</li>
+            <li>Neurocirurgia</li>
+            <li>Neurologia Adulto</li>
+            <li>Neurologia Infantil</li>
+            <li>Ortopedia</li>
+            <li>Otorrinolaringologia</li>
+            <li>Pneumologia Adulto</li>
+            <li>Pneumologia Infantil</li>
+            <li>Reumatologia</li>
+            <li>Urologia</li>
+          </ul>
+        </div>
+
+        <div class="nt-button-container">
+          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Acessar NT 25/2025</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-user-md" aria-hidden="true"></i>
+        <h2 class="section-title">Consultas não reguladas</h2>
+      </div>
+
+      <div class="section-content">
+        <div class="success-box" data-search-block>
+          <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+          <p>• <strong>Cirurgia Ambulatorial</strong></p>
+          <p>• <strong>Mastologia</strong></p>
+          <p>• <strong>Acolhimento SAE adulto/infantil</strong></p>
+          <p style="margin-top: 15px;">
+            Para esses casos o próprio profissional poderá solicitar a mesma via sistema Vivver e realizar o agendamento
+            de acordo com a disponibilidade de vagas.
+          </p>
+        </div>
+
+        <div data-search-block>
+          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
+            Os profissionais de saúde — médicos e enfermeiros (especificamente para Cirurgia Ambulatorial, Mastologia e
+            Acolhimento SAE adulto) deverão realizar a inserção da solicitação diretamente no sistema VIVVER, conforme
+            orientações descritas na NT 25/2025. Ao salvar a solicitação no sistema, será automaticamente exibida a tela do
+            Agendamento, permitindo ao profissional verificar a disponibilidade de vagas para realizar a marcação da
+            consulta.
+          </p>
+
+          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
+            Após a marcação no sistema o profissional solicitante poderá imprimir o protocolo do agendamento clicando no
+            menu ao lado onde constam os dados da consulta como data, local e horário.
+          </p>
+        </div>
+
+        <div class="info-box" data-search-block>
+          <h4><i class="fas fa-info-circle" aria-hidden="true"></i> Em caso de indisponibilidade de vagas</h4>
+          <p>
+            O profissional deverá imprimir a solicitação e orientar o usuário a protocolar o documento no setor
+            administrativo da unidade. O setor administrativo, por sua vez, deverá comunicar imediatamente à CMC a ausência
+            de vagas na especialidade, para que seja avaliada a necessidade de ajustes no fluxo, como a criação de fila de
+            espera.
+          </p>
+        </div>
+
+        <div data-search-block>
+          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
+            Para <strong>Acolhimento SAE – adulto e infantil</strong>, as solicitações serão realizadas seguindo a
+            NI01/2025 – Agendamento de primeiras consultas no SAE/CTA Iria Diniz.
+          </p>
+        </div>
+
+        <div class="nt-button-container">
+          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-external-link-alt"></i>
+            <span>Acessar NT 25/2025</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 5 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-desktop" aria-hidden="true"></i>
+        <h2 class="section-title">Como Encaminhar após a Teleconsultoria (Sistema Vivver)</h2>
+      </div>
+
+      <div class="section-content" data-search-block>
+        <h3 class="subsection-title">Passo a passo:</h3>
+
+        <div class="step-list">
+          <ol>
+            <li>Acessar a tela <strong>Solicitação de Procedimento de Serviço</strong> no Vivver.</li>
+            <li>Inserir o <strong>procedimento + especialidade + dados do paciente</strong>.</li>
+            <li>
+              Enviar para fila com:
+              <ul style="margin-top: 10px;">
+                <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
+                <li><strong>Motivo:</strong> REGULAÇÃO</li>
+              </ul>
+            </li>
+            <li><strong>Anexar o PDF da teleconsultoria</strong> na solicitação (etapa obrigatória).</li>
+            <li>Inserir novamente o PDF no <strong>SOAP do paciente</strong>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <i class="fas fa-heartbeat" aria-hidden="true"></i>
+    <p><strong>Diretoria de Regulação em Saúde</strong></p>
+    <p>Sistema de Agendamento e Procedimentos</p>
+    <p>Página criada por Ana P. A. Silva - Matrícula 201704 — Assistente Administrativo — Diretoria de Regulação em Saúde</p>
+    <p>© 2024 - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    // Animação de entrada da página
+    window.addEventListener('load', function() {
+      document.body.style.opacity = '1';
+    });
+
+    // Pesquisa automática por blocos (data-search-block)
+    (function () {
+      const input = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearInlineButton');
+
+      const allSections = Array.from(document.querySelectorAll('.content-section'));
+      const blocks = Array.from(document.querySelectorAll('[data-search-block]'));
+
+      function escapeRegExp(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function removeMarks(root) {
+        root.querySelectorAll('mark').forEach(m => {
+          const text = document.createTextNode(m.textContent);
+          m.replaceWith(text);
+        });
+      }
+
+      function highlightInBlock(block, term) {
+        removeMarks(block);
+
+        const regex = new RegExp(escapeRegExp(term), 'gi');
+
+        const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
+          acceptNode: (node) => {
+            if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentNode;
+            if (!parent) return NodeFilter.FILTER_REJECT;
+            const tag = parent.nodeName.toLowerCase();
+            if (tag === 'script' || tag === 'style') return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
         });
 
-        // Filter functionality
-        let currentFilter = 'all';
+        const textNodes = [];
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
 
-        function filterSpecialties(filter) {
-            currentFilter = filter;
-            
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        textNodes.forEach(node => {
+          const value = node.nodeValue;
+          if (!regex.test(value)) return;
 
-            // Filter cards
-            specialtyCards.forEach(card => {
-                const demand = card.dataset.demand;
-                
-                if (filter === 'all' || demand === filter) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+          const frag = document.createDocumentFragment();
+          let lastIndex = 0;
+          regex.lastIndex = 0;
 
-            updateCounts();
-        }
+          let match;
+          while ((match = regex.exec(value)) !== null) {
+            const start = match.index;
+            const end = start + match[0].length;
 
-        // Update statistics counts
-        function updateCounts() {
-            const visibleCards = Array.from(specialtyCards).filter(card => 
-                card.style.display !== 'none'
-            );
-            
-            const lowDemandVisible = visibleCards.filter(card => 
-                card.classList.contains('low-demand')
-            ).length;
-            
-            const highDemandVisible = visibleCards.filter(card => 
-                card.classList.contains('high-demand')
-            ).length;
+            frag.appendChild(document.createTextNode(value.slice(lastIndex, start)));
 
-            document.getElementById('totalCount').textContent = visibleCards.length;
-            document.getElementById('lowDemandCount').textContent = lowDemandVisible;
-            document.getElementById('highDemandCount').textContent = highDemandVisible;
-        }
+            const mark = document.createElement('mark');
+            mark.textContent = value.slice(start, end);
+            frag.appendChild(mark);
 
-        // Initialize counts
-        updateCounts();
+            lastIndex = end;
+          }
 
-        // Add smooth scrolling for better user experience
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add fade-in animation to cards
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            specialtyCards.forEach((card) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
-            });
+          frag.appendChild(document.createTextNode(value.slice(lastIndex)));
+          node.parentNode.replaceChild(frag, node);
         });
-    </script>
+      }
 
+      function applySearch() {
+        const term = input.value.trim();
+        const hasText = term.length > 0;
+
+        clearBtn.style.display = hasText ? 'flex' : 'none';
+
+        allSections.forEach(sec => sec.classList.remove('search-hidden'));
+        blocks.forEach(b => b.classList.remove('search-hidden', 'search-match'));
+
+        if (!hasText) {
+          blocks.forEach(b => removeMarks(b));
+          return;
+        }
+
+        const termLower = term.toLowerCase();
+        let firstVisibleBlock = null;
+
+        blocks.forEach(block => {
+          const text = block.textContent.toLowerCase();
+          const match = text.includes(termLower);
+
+          if (!match) {
+            block.classList.add('search-hidden');
+            removeMarks(block);
+          } else {
+            block.classList.remove('search-hidden');
+            block.classList.add('search-match');
+
+            highlightInBlock(block, term);
+
+            if (!firstVisibleBlock) firstVisibleBlock = block;
+          }
+        });
+
+        allSections.forEach(section => {
+          const visibleBlockInside = section.querySelector('[data-search-block]:not(.search-hidden)');
+          if (!visibleBlockInside) section.classList.add('search-hidden');
+        });
+
+        if (firstVisibleBlock) {
+          firstVisibleBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+
+      input.addEventListener('input', applySearch);
+
+      clearBtn.addEventListener('click', function () {
+        input.value = '';
+        input.focus();
+        applySearch();
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          input.value = '';
+          applySearch();
+        }
+      });
+    })();
+
+    // Scroll suave para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
