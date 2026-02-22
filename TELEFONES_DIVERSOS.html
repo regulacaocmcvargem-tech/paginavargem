@@ -3,134 +3,681 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCE's e Outros - Contatos Telefônicos</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Contatos Telefônicos Diversos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .card-hover:hover { 
-            transform: translateY(-4px); 
-            box-shadow: 0 20px 40px rgba(156, 74, 111, 0.3); 
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(135deg, #6b2d5c 0%, #8b3a70 100%);
+            color: white;
+            padding: 30px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .header-content h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .header-content h1 i {
+            font-size: 32px;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 4px;
+        }
+        
+        .header-credits {
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+        }
+        
+        /* Container Principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Caixa de Busca */
+        .search-wrapper {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 16px 24px 16px 50px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .search-box input:focus {
+            border-color: #8b3a70;
+            box-shadow: 0 0 0 3px rgba(139, 58, 112, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+        
+        /* Contador de Resultados */
+        .results-counter {
+            text-align: center;
+            margin: 20px 0;
+            padding: 12px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .results-counter i {
+            margin-right: 8px;
+        }
+        
+        /* Grid de Contatos */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        /* Cards de Contato */
         .contact-card {
-            background-color: #9C4A6F !important;
-            border-color: #7c3a59 !important;
+            background: linear-gradient(135deg, #7a3463 0%, #8b3a70 100%);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .contact-card .contact-name {
-            color: #ffffff !important;
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
         }
-        .contact-card .contact-phone {
-            color: #dbeafe !important;
+        
+        .contact-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(122, 52, 99, 0.4);
         }
-        .contact-card .contact-obs {
-            color: #f0e5eb !important;
-            border-color: #b86f90 !important;
+        
+        .contact-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .contact-card .text-blue-500 {
-            color: #93c5fd !important;
+        
+        .contact-name i {
+            font-size: 22px;
+            color: #ddd6f3;
         }
-        .contact-card .text-gray-400 {
-            color: #d1b9c6 !important;
+        
+        .contact-phone {
+            font-size: 17px;
+            font-weight: 500;
+            color: #e0d7f5;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            word-break: break-word;
         }
-        .bg-custom-header {
-            background-color: #9C4A6F;
+        
+        .contact-phone i {
+            font-size: 18px;
+            color: #d1c4e9;
+            flex-shrink: 0;
+        }
+        
+        .contact-obs {
+            font-size: 14px;
+            color: #f3e5f5;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+        
+        .contact-obs i {
+            font-size: 14px;
+            color: #e1bee7;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .contact-obs + .contact-obs {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: none;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 22px;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 24px 16px;
+            }
+        }
+        
+        /* Mensagem de Nenhum Resultado */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            display: none;
+        }
+        
+        .no-results.show {
+            display: block;
+        }
+        
+        .no-results i {
+            font-size: 64px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .no-results h3 {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .no-results p {
+            font-size: 16px;
+            color: #999;
         }
     </style>
 </head>
-<body class="bg-white">
-    <!-- Cabeçalho Padrão -->
-    <header class="bg-custom-header text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <!-- Conteúdo Central do Cabeçalho -->
-            <div class="text-center">
-                <h1 class="text-2xl md:text-3xl font-bold">
-                    <i class="fas fa-address-book mr-2"></i>
-                    Telefônes Diversos/Serviços de Saúde
-                </h1>
-                <p class="text-lg" style="color: #f0e5eb;">Diretoria de Regulação do Acesso</p>
-                <p class="footer-credits">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do Acesso</p>
-            </div>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-address-book"></i>
+                Contatos Telefônicos Diversos
+            </h1>
+            <p class="header-subtitle">Diretoria de Regulação do Acesso</p>
+            <p class="header-credits">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do Acesso</p>
         </div>
     </header>
 
-    <div class="max-w-7xl mx-auto p-6">
-        <!-- Search -->
-        <div class="mb-8 text-center">
-            <div class="relative max-w-lg mx-auto">
-                <input type="text" id="searchInput" class="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none bg-gray-50" placeholder="🔍 Pesquisar por nome, telefone ou observação...">
+    <!-- Container Principal -->
+    <div class="container">
+        <!-- Caixa de Busca -->
+        <div class="search-wrapper">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Pesquisar por setor, telefone ou responsável...">
             </div>
         </div>
 
-        <!-- Contacts Grid -->
-        <div id="contactsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Almoxarifado</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>9462/1876/5336</div></div>
+        <!-- Contador de Resultados -->
+        <div class="results-counter" id="resultsCounter">
+            <i class="fas fa-info-circle"></i>
+            Mostrando <strong id="visibleCount">26</strong> de <strong>26</strong> setores
+        </div>
+
+        <!-- Grid de Contatos -->
+        <div class="contacts-grid" id="contactsGrid">
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Almoxarifado
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    9462/1876/5336
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CAF</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>5864 / 3354-8772</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>Renata</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CAF
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    5864 / 3354-8772
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    Renata
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Caps Ad</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3398 7378 / (31) 3391-9922</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Rua Servilha, 110 - Santa Cruz</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Caps Ad
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3398 7378 / (31) 3391-9922
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Rua Servilha, 110 - Santa Cruz
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Caps Adulto / CAPS III</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3355 1558 / (31) 3391-1558</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Rua Madre Marguerita Fontaneresse, 106 - Eldorado</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Caps Adulto / CAPS III
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3355 1558 / (31) 3391-1558
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Rua Madre Marguerita Fontaneresse, 106 - Eldorado
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Caps I / CAPSi</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3352 5350/3356 3307 / (31) 3391-1927</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>R. Livorno, 96, Sta. Cruz / Rua Urucuri, 130 - Novo Eldorado</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Caps I / CAPSi
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3352 5350/3356 3307 / (31) 3391-1927
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    R. Livorno, 96, Sta. Cruz / Rua Urucuri, 130 - Novo Eldorado
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Casa Da Família</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3911 6774</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Casa Da Família
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3911 6774
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CCE Flores Do Iria</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3058-2787</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CCE Flores Do Iria
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3058-2787
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CCE Iria Diniz Agendas</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3058-2790/99257-2044</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CCE Iria Diniz Agendas
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3058-2790/99257-2044
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CCE Iria Diniz Recepção</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3058-2704</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CCE Iria Diniz Recepção
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3058-2704
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CCE Ressaca</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3394-1345 / 7213</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>ARLETE 7834</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CCE Ressaca
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3394-1345 / 7213
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    ARLETE 7834
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Centro de Convivência</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>(31) 3391-5350</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Rua Livorno, 96 - Santa Cruz</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    Centro de Convivência
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    (31) 3391-5350
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Rua Livorno, 96 - Santa Cruz
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CEO</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3398-7182/3398-5910</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>LUCILENE 7168</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    CEO
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3398-7182/3398-5910
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    LUCILENE 7168
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CER IV</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3356 6909/3356 6901/3392-6251/33566953</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-flask"></i>
+                    CER IV
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3356 6909/3356 6901/3392-6251/33566953
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CEREST</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3351 6130 / 3363-6290 / 9-92570569</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>MARLI</div><div class="contact-obs mt-2 flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Avenida Pedro Olimpio da Fonseca, 545 - Eldorado</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-briefcase-medical"></i>
+                    CEREST
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3351 6130 / 3363-6290 / 9-92570569
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    MARLI
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Avenida Pedro Olimpio da Fonseca, 545 - Eldorado
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>SAE - Infecto Infantil</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3058-1597</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-hospital"></i>
+                    SAE - Infecto Infantil
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3058-1597
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CISMEP Sabrina</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3512-4434</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-user-nurse"></i>
+                    CISMEP Sabrina
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3512-4434
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>Comissão Oncológica</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3277-5365</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-ribbon"></i>
+                    Comissão Oncológica
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3277-5365
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>CRAS</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3911 6774</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>R. Senegal, 229</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-hands-helping"></i>
+                    CRAS
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3911 6774
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    R. Senegal, 229
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-shield-alt text-blue-500 mr-3"></i>Guarda Municipal</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>153 - BARRETO</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-shield-alt"></i>
+                    Guarda Municipal
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    153 - BARRETO
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-shield-alt text-blue-500 mr-3"></i>Guarda Municipal</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3398 3051</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Região Água Branca</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-shield-alt"></i>
+                    Guarda Municipal
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3398 3051
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Região Água Branca
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-hospital text-blue-500 mr-3"></i>Hospital Municipal</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3352-8824</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>JULIANA E GEDEON 9603</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-hospital"></i>
+                    Hospital Municipal
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3352-8824
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    JULIANA E GEDEON 9603
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-building text-blue-500 mr-3"></i>ITR</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3395-5359</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Rua Reginaldo de Souza Lima Nº 500 - Bernardo Monteiro</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-building"></i>
+                    ITR
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3395-5359
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Rua Reginaldo de Souza Lima Nº 500 - Bernardo Monteiro
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-flask text-blue-500 mr-3"></i>Laboratório</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3356 6715</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Av. José Faria da Rocha, 1986</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-flask"></i>
+                    Laboratório
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3356 6715
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Av. José Faria da Rocha, 1986
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-user-md text-blue-500 mr-3"></i>Medwork – Medicina Do Trabalho Prefeitura</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3398 6763/ 3291 8686</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-map-marker-alt text-gray-400 mr-2 mt-1"></i>Av. José Faria da Rocha, 1986</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-user-md"></i>
+                    Medwork – Medicina Do Trabalho Prefeitura
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3398 6763/ 3291 8686
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Av. José Faria da Rocha, 1986
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-comments text-blue-500 mr-3"></i>Ouvidoria</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3472-6274 / 6275 / 0800 283 2947</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>JOÃO 6367</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-comments"></i>
+                    Ouvidoria
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3472-6274 / 6275 / 0800 283 2947
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    JOÃO 6367
+                </div>
+            </div>
             
-            <div class="contact-card border rounded-xl p-6 card-hover shadow-sm"><div class="contact-name text-xl font-semibold mb-3 flex items-center"><i class="fas fa-ambulance text-blue-500 mr-3"></i>SAMU</div><div class="contact-phone text-lg font-medium mb-2 flex items-center break-all"><i class="fas fa-phone text-blue-500 mr-3"></i>3391-1565</div><div class="contact-obs mt-3 pt-3 border-t flex items-start"><i class="fas fa-user text-gray-400 mr-2 mt-1"></i>PATRICIA 1840</div></div>
+            <div class="contact-card">
+                <div class="contact-name">
+                    <i class="fas fa-ambulance"></i>
+                    SAMU
+                </div>
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    3391-1565
+                </div>
+                <div class="contact-obs">
+                    <i class="fas fa-user"></i>
+                    PATRICIA 1840
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensagem de Nenhum Resultado -->
+        <div class="no-results" id="noResults">
+            <i class="fas fa-search"></i>
+            <h3>Nenhum resultado encontrado</h3>
+            <p>Tente buscar por outro termo</p>
         </div>
     </div>
 
     <script>
         const searchInput = document.getElementById('searchInput');
         const contactCards = document.querySelectorAll('.contact-card');
+        const visibleCount = document.getElementById('visibleCount');
+        const noResults = document.getElementById('noResults');
+        const totalCards = contactCards.length;
+
         searchInput.addEventListener('input', function() {
             const query = this.value.toLowerCase().trim();
+            let visible = 0;
+
             contactCards.forEach(card => {
                 const cardText = card.textContent.toLowerCase();
                 if (cardText.includes(query)) {
                     card.style.display = 'block';
+                    visible++;
                 } else {
                     card.style.display = 'none';
                 }
             });
+
+            visibleCount.textContent = visible;
+
+            if (visible === 0) {
+                noResults.classList.add('show');
+            } else {
+                noResults.classList.remove('show');
+            }
         });
     </script>
 </body>
