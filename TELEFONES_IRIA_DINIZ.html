@@ -4,518 +4,895 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contatos Telefônicos CCE Iria Diniz</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #FFFFFF;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: #2d3748;
         }
-        .header-bg {
-            background: #9C4A6F;
-        }
-        .search-container {
-            background: white;
-            border-radius: 50px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
-        }
-        .search-input {
-            border: none;
-            outline: none;
-            background: transparent;
-        }
-        .card-contact {
-            background: #9C4A6F;
-            border-radius: 12px;
-            padding: 1.5rem;
+
+        /* ========== CABEÇALHO ========== */
+        .header {
+            background: linear-gradient(135deg, #6b2d5c 0%, #8b3a70 50%, #9c4781 100%);
             color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(156, 74, 111, 0.3);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 2.5rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(107, 45, 92, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        .card-contact:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(156, 74, 111, 0.4);
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
         }
-        .card-contact.hidden {
-            display: none;
-        }
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .card-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-        .card-info i {
-            margin-right: 0.5rem;
-            width: 20px;
-        }
-        .container-main {
+
+        .header-content {
             max-width: 1400px;
             margin: 0 auto;
+            text-align: center;
         }
-        .stats-box {
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title i {
+            margin-right: 0.75rem;
+            font-size: 1.8rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: #f0e5eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-credits {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+        }
+
+        /* ========== CONTAINER PRINCIPAL ========== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ========== ÁREA DE BUSCA ========== */
+        .search-section {
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 3.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
             background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #8b3a70;
+            box-shadow: 0 4px 16px rgba(139, 58, 112, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e2e8f0;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #64748b;
+        }
+
+        .clear-search:hover {
+            background: #cbd5e1;
+            color: #475569;
+        }
+
+        .clear-search.show {
+            display: flex;
+        }
+
+        /* ========== CONTADOR DE RESULTADOS ========== */
+        .results-counter {
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.9375rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .results-counter i {
+            margin-right: 0.5rem;
+            color: #8b3a70;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        /* ========== SEÇÕES DE CATEGORIA ========== */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid #8b3a70;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 0.75rem;
+            color: #8b3a70;
+        }
+
+        /* ========== GRID DE SETORES ========== */
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 2rem;
+        }
+
+        /* ========== CARDS DOS SETORES ========== */
+        .sector-card {
+            background: linear-gradient(135deg, #8b3a70 0%, #7a3363 100%);
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px rgba(107, 45, 92, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sector-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
+        }
+
+        .sector-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(107, 45, 92, 0.25);
+        }
+
+        .sector-card.hidden {
+            display: none;
+        }
+
+        .sector-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .sector-icon {
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 0.75rem;
+            opacity: 0.95;
+        }
+
+        .sector-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .sector-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            color: #f0e5eb;
+            font-size: 0.9375rem;
+        }
+
+        .info-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+            color: #dbeafe;
+            font-size: 0.9rem;
+        }
+
+        .info-item span {
+            font-weight: 500;
+        }
+
+        .info-item a {
+            color: #dbeafe;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .info-item a:hover {
+            color: #bfdbfe;
+            text-decoration: underline;
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.5rem;
+            }
+
+            .header-title i {
+                font-size: 1.4rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .header-credits {
+                font-size: 0.7rem;
+            }
+
+            .sectors-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .search-input {
+                padding: 0.875rem 3rem 0.875rem 3rem;
+                font-size: 0.9375rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .sector-name {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .header-title {
+                font-size: 1.25rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .sector-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1200px) {
+            .sectors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
-    <header class="header-bg text-white py-6 shadow-lg">
-        <div class="container-main px-6">
-            <div class="flex items-center justify-center mb-2">
-                <i class="fas fa-hospital-alt text-3xl mr-3"></i>
-                <h1 class="text-3xl font-bold">Contatos Telefônicos CCE Iria Diniz</h1>
-            </div>
-            <p class="text-center text-sm opacity-90">Diretoria de Regulação do Acesso</p>
-            <p class="text-center text-xs opacity-75 mt-1">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do Acesso</p>
+    <!-- CABEÇALHO -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">
+                <i class="fas fa-hospital-alt"></i>
+                Contatos Telefônicos CCE Iria Diniz
+            </h1>
+            <p class="header-subtitle">Diretoria de Regulação do Acesso</p>
+            <p class="header-credits">Página Criada por Ana P. A. Silva Matr:201704 / Assistente Adm. Diretoria de Regulação do Acesso</p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container-main px-6 py-8">
-        
-        <!-- Search Bar -->
-        <div class="mb-8 flex justify-center">
-            <div class="search-container w-full max-w-2xl px-6 py-3 flex items-center">
-                <i class="fas fa-search text-gray-400 mr-3"></i>
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container">
+        <!-- ÁREA DE BUSCA -->
+        <section class="search-section">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Pesquisar por setor, telefone ou responsável..." 
-                    class="search-input flex-1 text-gray-700"
+                    class="search-input" 
+                    placeholder="Pesquisar por setor, telefone ou responsável..."
+                    autocomplete="off"
                 >
-                <button id="clearSearchBtn" class="ml-3 text-red-500 hover:text-red-700 transition">
+                <button class="clear-search" id="clearSearch">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+        </section>
+
+        <!-- CONTADOR DE RESULTADOS -->
+        <div class="results-counter" id="resultsCounter">
+            <i class="fas fa-info-circle"></i>
+            Mostrando <strong id="visibleCount">25</strong> de <strong id="totalCount">25</strong> setores
         </div>
 
-        <!-- Stats -->
-        <div class="text-center mb-6">
-            <div class="stats-box">
-                <p class="text-gray-700 text-sm">
-                    <i class="fas fa-info-circle mr-2" style="color: #9C4A6F;"></i>
-                    Mostrando <span id="visibleUnits" class="font-bold" style="color: #9C4A6F;">25</span> de <span id="totalUnits" class="font-bold" style="color: #9C4A6F;">25</span> setores
-                </p>
-            </div>
+        <!-- MENSAGEM SEM RESULTADOS -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Nenhum resultado encontrado</h3>
+            <p>Tente ajustar os termos da sua busca</p>
         </div>
 
-        <!-- Cards Grid -->
-        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <div class="card-contact" data-search="administração (31)3198-7356">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-building mr-2"></i>
-                        Administração
+        <!-- SEÇÃO: DEPARTAMENTOS ADMINISTRATIVOS -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-building"></i>
+                Departamentos Administrativos
+            </h2>
+            <div class="sectors-grid" id="sectorsGrid">
+                <!-- Administração -->
+                <div class="sector-card" data-search="administração admin 31 3198-7356">
+                    <div class="sector-header">
+                        <i class="fas fa-building sector-icon"></i>
+                        <h3 class="sector-name">Administração</h3>
                     </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7356</span>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987356">(31) 3198-7356</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arquivo / Same -->
+                <div class="sector-card" data-search="arquivo same 31 3198-7357">
+                    <div class="sector-header">
+                        <i class="fas fa-archive sector-icon"></i>
+                        <h3 class="sector-name">Arquivo / Same</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987357">(31) 3198-7357</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guarita -->
+                <div class="sector-card" data-search="guarita segurança 31 3198-7358">
+                    <div class="sector-header">
+                        <i class="fas fa-shield-alt sector-icon"></i>
+                        <h3 class="sector-name">Guarita</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987358">(31) 3198-7358</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Almoxarifado -->
+                <div class="sector-card" data-search="almoxarifado estoque 31 3198-7360">
+                    <div class="sector-header">
+                        <i class="fas fa-boxes sector-icon"></i>
+                        <h3 class="sector-name">Almoxarifado</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987360">(31) 3198-7360</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RH -->
+                <div class="sector-card" data-search="rh recursos humanos 31 3198-7359">
+                    <div class="sector-header">
+                        <i class="fas fa-users sector-icon"></i>
+                        <h3 class="sector-name">Recursos Humanos (RH)</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987359">(31) 3198-7359</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guichê -->
+                <div class="sector-card" data-search="guichê guiche atendimento 31 3198-7371">
+                    <div class="sector-header">
+                        <i class="fas fa-window-maximize sector-icon"></i>
+                        <h3 class="sector-name">Guichê</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987371">(31) 3198-7371</a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="card-contact" data-search="arquivo same (31)3198-7357">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-archive mr-2"></i>
-                        Arquivo / Same
+        <!-- SEÇÃO: DIREÇÃO -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-user-tie"></i>
+                Direção
+            </h2>
+            <div class="sectors-grid">
+                <!-- Diretora Geral -->
+                <div class="sector-card" data-search="diretora geral aliny 31 3198-7362">
+                    <div class="sector-header">
+                        <i class="fas fa-user-tie sector-icon"></i>
+                        <h3 class="sector-name">Diretora Geral</h3>
                     </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7357</span>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987362">(31) 3198-7362</a>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <span>Aliny</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diretor Técnico -->
+                <div class="sector-card" data-search="diretor tecnico celio elias 31 3198-7352">
+                    <div class="sector-header">
+                        <i class="fas fa-user-md sector-icon"></i>
+                        <h3 class="sector-name">Diretor Técnico</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987352">(31) 3198-7352</a>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <span>Célio Elias</span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="card-contact" data-search="guarita (31)3198-7358">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-shield-alt mr-2"></i>
-                        Guarita
+        <!-- SEÇÃO: DEPARTAMENTOS MÉDICOS E ESPECIALIZADOS -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-stethoscope"></i>
+                Departamentos Médicos e Especializados
+            </h2>
+            <div class="sectors-grid">
+                <!-- DST - Coordenação -->
+                <div class="sector-card" data-search="dst coordenador paulo 31 3198-7375">
+                    <div class="sector-header">
+                        <i class="fas fa-heartbeat sector-icon"></i>
+                        <h3 class="sector-name">DST - Coordenação</h3>
                     </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7358</span>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987375">(31) 3198-7375</a>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <span>Coordenador Paulo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / ADT -->
+                <div class="sector-card" data-search="dst adt 31 3198-7363">
+                    <div class="sector-header">
+                        <i class="fas fa-stethoscope sector-icon"></i>
+                        <h3 class="sector-name">DST / ADT</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987363">(31) 3198-7363</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / CTA -->
+                <div class="sector-card" data-search="dst cta 31 3198-7353">
+                    <div class="sector-header">
+                        <i class="fas fa-vial sector-icon"></i>
+                        <h3 class="sector-name">DST / CTA</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987353">(31) 3198-7353</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / CTA (2) -->
+                <div class="sector-card" data-search="dst cta 31 3198-7365">
+                    <div class="sector-header">
+                        <i class="fas fa-vial sector-icon"></i>
+                        <h3 class="sector-name">DST / CTA</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987365">(31) 3198-7365</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / SAE / Farmácia -->
+                <div class="sector-card" data-search="dst sae farmacia farmácia 31 3198-7372">
+                    <div class="sector-header">
+                        <i class="fas fa-pills sector-icon"></i>
+                        <h3 class="sector-name">DST / SAE / Farmácia</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987372">(31) 3198-7372</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / SAE Recepção -->
+                <div class="sector-card" data-search="dst sae recepcao recepção 31 3198-7366">
+                    <div class="sector-header">
+                        <i class="fas fa-desk sector-icon"></i>
+                        <h3 class="sector-name">DST / SAE Recepção</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987366">(31) 3198-7366</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DST / Serviço Social -->
+                <div class="sector-card" data-search="dst servico serviço social 31 3198-7364">
+                    <div class="sector-header">
+                        <i class="fas fa-people-carry sector-icon"></i>
+                        <h3 class="sector-name">DST / Serviço Social</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987364">(31) 3198-7364</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enfermagem -->
+                <div class="sector-card" data-search="enfermagem 31 3198-7367">
+                    <div class="sector-header">
+                        <i class="fas fa-user-nurse sector-icon"></i>
+                        <h3 class="sector-name">Enfermagem</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987367">(31) 3198-7367</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enfermagem / SAE -->
+                <div class="sector-card" data-search="enfermagem sae 31 3198-7374">
+                    <div class="sector-header">
+                        <i class="fas fa-user-nurse sector-icon"></i>
+                        <h3 class="sector-name">Enfermagem / SAE</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987374">(31) 3198-7374</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Epidemiologia -->
+                <div class="sector-card" data-search="epidemiologia 31 3198-7369">
+                    <div class="sector-header">
+                        <i class="fas fa-microscope sector-icon"></i>
+                        <h3 class="sector-name">Epidemiologia</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987369">(31) 3198-7369</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Oftalmologia -->
+                <div class="sector-card" data-search="oftalmologia 31 3198-7354">
+                    <div class="sector-header">
+                        <i class="fas fa-eye sector-icon"></i>
+                        <h3 class="sector-name">Oftalmologia</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987354">(31) 3198-7354</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reabilitação -->
+                <div class="sector-card" data-search="reabilitacao reabilitação 31 3198-7368">
+                    <div class="sector-header">
+                        <i class="fas fa-wheelchair sector-icon"></i>
+                        <h3 class="sector-name">Reabilitação</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987368">(31) 3198-7368</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reabilitação / Serv. Social -->
+                <div class="sector-card" data-search="reabilitacao reabilitação servico serviço social 31 3198-7351">
+                    <div class="sector-header">
+                        <i class="fas fa-hands-helping sector-icon"></i>
+                        <h3 class="sector-name">Reabilitação / Serv. Social</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987351">(31) 3198-7351</a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="card-contact" data-search="almoxarifado (31)3198-7360">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-boxes mr-2"></i>
-                        Almoxarifado
+        <!-- SEÇÃO: SERVIÇOS DE APOIO -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-hands-helping"></i>
+                Serviços de Apoio
+            </h2>
+            <div class="sectors-grid">
+                <!-- Assistência Social -->
+                <div class="sector-card" data-search="assistencia assistência social 31 3198-7361">
+                    <div class="sector-header">
+                        <i class="fas fa-hands-helping sector-icon"></i>
+                        <h3 class="sector-name">Assistência Social</h3>
                     </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7360</span>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987361">(31) 3198-7361</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flores do Iria / PNAR -->
+                <div class="sector-card" data-search="flores iria pnar 31 3198-7373">
+                    <div class="sector-header">
+                        <i class="fas fa-leaf sector-icon"></i>
+                        <h3 class="sector-name">Flores do Iria / PNAR</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987373">(31) 3198-7373</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lacen -->
+                <div class="sector-card" data-search="lacen laboratorio laboratório 31 3198-7376">
+                    <div class="sector-header">
+                        <i class="fas fa-flask sector-icon"></i>
+                        <h3 class="sector-name">Lacen (Laboratório)</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987376">(31) 3198-7376</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Oxigenoterapia -->
+                <div class="sector-card" data-search="oxigenoterapia 31 3198-7370">
+                    <div class="sector-header">
+                        <i class="fas fa-wind sector-icon"></i>
+                        <h3 class="sector-name">Oxigenoterapia</h3>
+                    </div>
+                    <div class="sector-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:3131987370">(31) 3198-7370</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card-contact" data-search="assistência social (31)3198-7361">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-hands-helping mr-2"></i>
-                        Assist. Social
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7361</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="diretor técnico célio elias (31)3198-7352">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-user-md mr-2"></i>
-                        Diretor Técnico
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7352</span>
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-user"></i>
-                        <span>Célio Elias</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="diretora geral aliny (31)3198-7362">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-user-tie mr-2"></i>
-                        Diretora Geral
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7362</span>
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-user"></i>
-                        <span>Aliny</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst coordenador paulo (31)3198-7375">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-heartbeat mr-2"></i>
-                        DST
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7375</span>
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-user"></i>
-                        <span>Coordenador Paulo</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst adt (31)3198-7363">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-stethoscope mr-2"></i>
-                        DST / ADT
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7363</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst cta (31)3198-7353">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-vial mr-2"></i>
-                        DST / CTA
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7353</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst cta (31)3198-7365">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-vial mr-2"></i>
-                        DST / CTA
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7365</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst sae farmácia (31)3198-7372">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-pills mr-2"></i>
-                        DST / SAE / Farmácia
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7372</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst sae recepção (31)3198-7366">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-desk mr-2"></i>
-                        DST / SAE Recepção
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7366</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="dst serviço social (31)3198-7364">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-people-carry mr-2"></i>
-                        DST / Serviço Social
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7364</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="enfermagem (31)3198-7367">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-user-nurse mr-2"></i>
-                        Enfermagem
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7367</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="enfermagem sae (31)3198-7374">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-user-nurse mr-2"></i>
-                        Enfermagem / SAE
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7374</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="epidemiologia (31)3198-7369">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-microscope mr-2"></i>
-                        Epidemiologia
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7369</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="flores do iria pnar (31)3198-7373">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-leaf mr-2"></i>
-                        Flores do Iria / PNAR
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7373</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="guichê (31)3198-7371">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-window-maximize mr-2"></i>
-                        Guichê
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7371</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="lacen laboratório (31)3198-7376">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-flask mr-2"></i>
-                        Lacen
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7376</span>
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Laboratório</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="oftalmologia (31)3198-7354">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-eye mr-2"></i>
-                        Oftalmologia
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7354</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="oxigenoterapia (31)3198-7370">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-wind mr-2"></i>
-                        Oxigenoterapia
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7370</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="reabilitação (31)3198-7368">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-wheelchair mr-2"></i>
-                        Reabilitação
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7368</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="reabilitação serviço social (31)3198-7351">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-hands-helping mr-2"></i>
-                        Reabilitação / Serv. Social
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7351</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-contact" data-search="rh recursos humanos (31)3198-7359">
-                <div>
-                    <div class="card-title">
-                        <i class="fas fa-users mr-2"></i>
-                        RH
-                    </div>
-                    <div class="card-info">
-                        <i class="fas fa-phone"></i>
-                        <span>(31) 3198-7359</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        </section>
     </div>
 
+    <!-- JAVASCRIPT PARA BUSCA INTELIGENTE -->
     <script>
-        const searchInput = document.getElementById("searchInput");
-        const clearSearchBtn = document.getElementById("clearSearchBtn");
-        const cards = document.querySelectorAll(".card-contact");
-        const totalUnitsSpan = document.getElementById("totalUnits");
-        const visibleUnitsSpan = document.getElementById("visibleUnits");
+        // Função para normalizar texto (remover acentos)
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
+        }
 
-        const totalCards = cards.length;
-        totalUnitsSpan.textContent = totalCards;
+        // Elementos
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const resultsCounter = document.getElementById('resultsCounter');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+        const noResults = document.getElementById('noResults');
+        const sectorCards = document.querySelectorAll('.sector-card');
+        const sections = document.querySelectorAll('.section');
 
+        // Total de setores
+        totalCount.textContent = sectorCards.length;
+
+        // Função de busca
         function performSearch() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let visibleCount = 0;
+            const searchTerm = normalizeText(searchInput.value.trim());
+            let visibleCards = 0;
 
-            cards.forEach(card => {
-                const searchData = card.getAttribute("data-search");
+            // Mostrar/ocultar botão de limpar
+            if (searchInput.value.trim() !== '') {
+                clearSearch.classList.add('show');
+            } else {
+                clearSearch.classList.remove('show');
+            }
+
+            // Filtrar cards
+            sectorCards.forEach(card => {
+                const searchData = normalizeText(card.getAttribute('data-search'));
                 
-                if (searchTerm === "" || searchData.includes(searchTerm)) {
-                    card.classList.remove("hidden");
-                    visibleCount++;
+                if (searchData.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCards++;
                 } else {
-                    card.classList.add("hidden");
+                    card.classList.add('hidden');
                 }
             });
 
-            visibleUnitsSpan.textContent = visibleCount;
-        }
-
-        function clearSearch() {
-            searchInput.value = "";
-            cards.forEach(card => {
-                card.classList.remove("hidden");
+            // Ocultar seções vazias
+            sections.forEach(section => {
+                const gridContainer = section.querySelector('.sectors-grid');
+                const visibleCardsInSection = gridContainer.querySelectorAll('.sector-card:not(.hidden)');
+                
+                if (visibleCardsInSection.length === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
             });
-            visibleUnitsSpan.textContent = totalCards;
-            searchInput.focus();
+
+            // Atualizar contador
+            visibleCount.textContent = visibleCards;
+
+            // Mostrar mensagem se não houver resultados
+            if (visibleCards === 0) {
+                noResults.style.display = 'block';
+                resultsCounter.style.display = 'none';
+            } else {
+                noResults.style.display = 'none';
+                resultsCounter.style.display = 'block';
+            }
         }
 
-        searchInput.addEventListener("input", performSearch);
-        searchInput.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
+        // Event listeners
+        searchInput.addEventListener('input', performSearch);
+
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearch.classList.remove('show');
+            performSearch();
+            searchInput.focus();
+        });
+
+        // Limpar busca com ESC
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                clearSearch.classList.remove('show');
                 performSearch();
             }
         });
-        clearSearchBtn.addEventListener("click", clearSearch);
 
-        document.addEventListener("DOMContentLoaded", function() {
+        // Focar no input ao carregar
+        document.addEventListener('DOMContentLoaded', () => {
             searchInput.focus();
         });
     </script>
-
 </body>
 </html>
-
 
