@@ -3,69 +3,610 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Distritos - Informações de Contato</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Distritos Sanitários - Diretoria de Regulação do Acesso</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .district-card { 
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
-            background-color: #9C4A6F !important;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .district-card:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 25px -5px rgba(156, 74, 111, 0.3); 
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: #2d3748;
         }
-        .district-card h2 {
-            color: #ffffff;
+
+        /* ========== CABEÇALHO ========== */
+        .header {
+            background: linear-gradient(135deg, #6b2d5c 0%, #8b3a70 50%, #9c4781 100%);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(107, 45, 92, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        .district-card .text-gray-700 {
-            color: #f0e5eb !important;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
         }
-        .district-card .text-blue-600 {
-            color: #dbeafe !important;
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
         }
-        .bg-custom-header {
-            background-color: #9C4A6F;
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title i {
+            margin-right: 0.75rem;
+            font-size: 1.8rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: #f0e5eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-credits {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+        }
+
+        /* ========== CONTAINER PRINCIPAL ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ========== ÁREA DE BUSCA ========== */
+        .search-section {
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 3.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #8b3a70;
+            box-shadow: 0 4px 16px rgba(139, 58, 112, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e2e8f0;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #64748b;
+        }
+
+        .clear-search:hover {
+            background: #cbd5e1;
+            color: #475569;
+        }
+
+        .clear-search.show {
+            display: flex;
+        }
+
+        /* ========== CONTADOR DE RESULTADOS ========== */
+        .results-counter {
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.9375rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .results-counter i {
+            margin-right: 0.5rem;
+            color: #8b3a70;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        /* ========== SEÇÕES DE CATEGORIA ========== */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid #8b3a70;
+        }
+
+        /* ========== GRID DE DISTRITOS ========== */
+        .districts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 2rem;
+        }
+
+        /* ========== CARDS DOS DISTRITOS ========== */
+        .district-card {
+            background: linear-gradient(135deg, #8b3a70 0%, #7a3363 100%);
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px rgba(107, 45, 92, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .district-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
+        }
+
+        .district-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(107, 45, 92, 0.25);
+        }
+
+        .district-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .district-icon {
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 0.75rem;
+            opacity: 0.95;
+        }
+
+        .district-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .district-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            color: #f0e5eb;
+            font-size: 0.9375rem;
+        }
+
+        .info-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+            color: #dbeafe;
+            font-size: 0.9rem;
+        }
+
+        .info-item span {
+            font-weight: 500;
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.5rem;
+            }
+
+            .header-title i {
+                font-size: 1.4rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .header-credits {
+                font-size: 0.7rem;
+            }
+
+            .districts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .search-input {
+                padding: 0.875rem 3rem 0.875rem 3rem;
+                font-size: 0.9375rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .district-name {
+                font-size: 1.125rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .header-title {
+                font-size: 1.25rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .district-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="bg-white min-h-screen">
-    <!-- Cabeçalho Padrão -->
-    <header class="bg-custom-header text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <!-- Conteúdo Central do Cabeçalho -->
-            <div class="text-center">
-                <h1 class="text-2xl md:text-3xl font-bold">
-                    <i class="fas fa-map-marker-alt mr-2"></i>
-                    Diretoria de Regulação do Acesso
-                </h1>
-                <p class="text-lg" style="color: #f0e5eb;">
-                    Telefones/Distritos Sanitários de Saúde
-                </p>
-                <p class="footer-credits">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do acesso</p>
-            </div>
+<body>
+    <!-- CABEÇALHO -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">
+                <i class="fas fa-address-book"></i>
+                Distritos Sanitários - Contatos Telefônicos
+            </h1>
+            <p class="header-subtitle">Diretoria de Regulação do Acesso</p>
+            <p class="header-credits">Página Criada por Ana P. A. Silva Matr:201704 / Assistente Adm. Diretoria de Regulação do Acesso</p>
         </div>
     </header>
 
-    <div class="container mx-auto px-4 max-w-6xl py-8">
-        <!-- Districts Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Eldorado</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3352-5406</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3352-5407</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3352-5408</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Industrial</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3363-6045</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3363-6046</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Nacional</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0300</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0301</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Petrolândia</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-7836</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3352-5267</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Ressaca</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0320</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0321</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Riacho</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0330</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0331</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Sede</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0340</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0341</span></div></div></div>
-            <div class="district-card rounded-xl p-6"><h2 class="text-xl font-bold mb-4">Distrito Vargem das Flores</h2><div class="space-y-2"><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0306</span></div><div class="flex items-center p-2"><i class="fas fa-phone text-blue-600 mr-3"></i><span class="text-gray-700">3397-0307</span></div></div></div>
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container">
+        <!-- ÁREA DE BUSCA -->
+        <section class="search-section">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Pesquisar por distrito ou telefone..."
+                    autocomplete="off"
+                >
+                <button class="clear-search" id="clearSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- CONTADOR DE RESULTADOS -->
+        <div class="results-counter" id="resultsCounter">
+            <i class="fas fa-info-circle"></i>
+            Mostrando <strong id="visibleCount">8</strong> de <strong id="totalCount">8</strong> distritos
         </div>
+
+        <!-- MENSAGEM SEM RESULTADOS -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Nenhum resultado encontrado</h3>
+            <p>Tente ajustar os termos da sua busca</p>
+        </div>
+
+        <!-- GRID DE DISTRITOS -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-map-marked-alt" style="margin-right: 0.5rem;"></i>
+                Distritos Sanitários
+            </h2>
+            <div class="districts-grid" id="districtsGrid">
+                <!-- Distrito Eldorado -->
+                <div class="district-card" data-search="distrito eldorado 3352-5406 3352-5407 3352-5408">
+                    <div class="district-header">
+                        <i class="fas fa-hospital-alt district-icon"></i>
+                        <h3 class="district-name">Distrito Eldorado</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3352-5406</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3352-5407</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3352-5408</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Industrial -->
+                <div class="district-card" data-search="distrito industrial 3363-6045 3363-6046">
+                    <div class="district-header">
+                        <i class="fas fa-industry district-icon"></i>
+                        <h3 class="district-name">Distrito Industrial</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3363-6045</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3363-6046</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Nacional -->
+                <div class="district-card" data-search="distrito nacional 3397-0300 3397-0301">
+                    <div class="district-header">
+                        <i class="fas fa-flag district-icon"></i>
+                        <h3 class="district-name">Distrito Nacional</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0300</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0301</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Petrolândia -->
+                <div class="district-card" data-search="distrito petrolandia petrolândia 3397-7836 3352-5267">
+                    <div class="district-header">
+                        <i class="fas fa-oil-can district-icon"></i>
+                        <h3 class="district-name">Distrito Petrolândia</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-7836</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3352-5267</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Ressaca -->
+                <div class="district-card" data-search="distrito ressaca 3397-0320 3397-0321">
+                    <div class="district-header">
+                        <i class="fas fa-water district-icon"></i>
+                        <h3 class="district-name">Distrito Ressaca</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0320</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0321</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Riacho -->
+                <div class="district-card" data-search="distrito riacho 3397-0330 3397-0331">
+                    <div class="district-header">
+                        <i class="fas fa-stream district-icon"></i>
+                        <h3 class="district-name">Distrito Riacho</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0330</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0331</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Sede -->
+                <div class="district-card" data-search="distrito sede 3397-0340 3397-0341">
+                    <div class="district-header">
+                        <i class="fas fa-building district-icon"></i>
+                        <h3 class="district-name">Distrito Sede</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0340</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0341</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distrito Vargem das Flores -->
+                <div class="district-card" data-search="distrito vargem das flores 3397-0306 3397-0307">
+                    <div class="district-header">
+                        <i class="fas fa-seedling district-icon"></i>
+                        <h3 class="district-name">Distrito Vargem das Flores</h3>
+                    </div>
+                    <div class="district-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0306</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>3397-0307</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- JAVASCRIPT PARA BUSCA INTELIGENTE -->
+    <script>
+        // Função para normalizar texto (remover acentos)
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
+        }
+
+        // Elementos
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const districtsGrid = document.getElementById('districtsGrid');
+        const resultsCounter = document.getElementById('resultsCounter');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+        const noResults = document.getElementById('noResults');
+        const districtCards = document.querySelectorAll('.district-card');
+
+        // Total de distritos
+        totalCount.textContent = districtCards.length;
+
+        // Função de busca
+        function performSearch() {
+            const searchTerm = normalizeText(searchInput.value.trim());
+            let visibleCards = 0;
+
+            // Mostrar/ocultar botão de limpar
+            if (searchInput.value.trim() !== '') {
+                clearSearch.classList.add('show');
+            } else {
+                clearSearch.classList.remove('show');
+            }
+
+            // Filtrar cards
+            districtCards.forEach(card => {
+                const searchData = normalizeText(card.getAttribute('data-search'));
+                
+                if (searchData.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCards++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Atualizar contador
+            visibleCount.textContent = visibleCards;
+
+            // Mostrar mensagem se não houver resultados
+            if (visibleCards === 0) {
+                noResults.style.display = 'block';
+                resultsCounter.style.display = 'none';
+            } else {
+                noResults.style.display = 'none';
+                resultsCounter.style.display = 'block';
+            }
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', performSearch);
+
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearch.classList.remove('show');
+            performSearch();
+            searchInput.focus();
+        });
+
+        // Limpar busca com ESC
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                clearSearch.classList.remove('show');
+                performSearch();
+            }
+        });
+    </script>
 </body>
-
 </html>
-
-
-
 
