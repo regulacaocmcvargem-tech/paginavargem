@@ -166,16 +166,15 @@
     }
 
     .section-header i { font-size: 1.5rem; opacity: 0.9; }
-
     .section-title { font-size: 1.4rem; font-weight: 600; margin: 0; }
-
     .section-content { padding: 30px; }
 
     .intro-text {
       font-size: 1.1rem;
-      color: #6c757d;
+      color: #333;
       margin-bottom: 0;
       line-height: 1.8;
+      font-weight: 600;
     }
 
     .subsection-title {
@@ -227,6 +226,7 @@
     .success-box ul { margin: 10px 0 10px 20px; color: #1b5e20; }
     .success-box ul li { margin: 5px 0; }
 
+    /* specialty-list padrão azul */
     .specialty-list {
       background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
       border-radius: 12px;
@@ -252,7 +252,29 @@
       break-inside: avoid;
     }
 
-    /* Estilo para os botões de nota técnica */
+    /* specialty-list variante vermelha — BH */
+    .specialty-list-red {
+      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+      border-left: 4px solid #e53935 !important;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .specialty-list-red h4 { color: #b71c1c; margin-bottom: 8px; }
+
+    .specialty-list-red p {
+      color: #c62828 !important;
+      font-weight: 700 !important;
+      margin: 6px 0;
+    }
+
+    .specialty-list-red p strong {
+      color: #c62828 !important;
+      font-weight: 700 !important;
+    }
+
+    /* botão NT */
     .nt-button-container {
       margin-top: 25px;
       padding-top: 20px;
@@ -287,10 +309,200 @@
       box-shadow: 0 2px 10px rgba(156, 74, 111, 0.3);
     }
 
-    .nt-link i {
-      font-size: 1.1rem;
+    .nt-link i { font-size: 1.1rem; }
+
+    /* =========================================
+       MENU FLUTUANTE — LADO ESQUERDO, SEMPRE ABERTO
+       ========================================= */
+    #floating-menu {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: row;   /* [painel] [aba] */
+      align-items: center;
     }
 
+    /* Painel de links (à esquerda) */
+    #float-panel {
+      background: #f8f0f4;
+      border-radius: 0 16px 16px 0;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.15);
+      padding: 20px 16px;
+      width: 270px;
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid #e8d0dc;
+      border-left: none;
+      transition: width 0.35s cubic-bezier(.4,0,.2,1),
+                  opacity 0.3s ease,
+                  padding 0.3s ease;
+      overflow: hidden;
+      pointer-events: all;
+    }
+
+    /* Estado fechado */
+    #floating-menu.closed #float-panel {
+      width: 0;
+      opacity: 0;
+      padding: 0;
+      pointer-events: none;
+    }
+
+    #float-panel-header {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #9C4A6F;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e0c0d0;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .float-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #9C4A6F 0%, #7a3a57 100%);
+      color: white !important;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.35;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(156,74,111,0.2);
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .float-btn:hover {
+      background: linear-gradient(135deg, #7a3a57 0%, #9C4A6F 100%);
+      transform: translateX(3px);
+      box-shadow: 0 4px 14px rgba(156,74,111,0.35);
+    }
+
+    .float-btn i {
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    /* Aba de toggle (à direita do painel) */
+    #float-toggle {
+      background: #9C4A6F;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 34px;
+      min-height: 130px;
+      border-radius: 0 12px 12px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 4px 0 18px rgba(156,74,111,0.25);
+      transition: background 0.2s ease;
+      padding: 14px 5px;
+      flex-shrink: 0;
+    }
+
+    #float-toggle:hover { background: #7a3a57; }
+
+    #float-toggle .toggle-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(0deg);   /* lê de cima pra baixo */
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    #float-toggle .toggle-icon {
+      font-size: 0.85rem;
+      transition: transform 0.3s ease;
+    }
+
+    /* Ícone aponta para esquerda quando aberto (fechar),
+       para direita quando fechado (abrir) */
+    #floating-menu.closed #float-toggle .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    /* =========================================
+       RESPONSIVO MOBILE — barra inferior
+       ========================================= */
+    @media (max-width: 768px) {
+      #floating-menu {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 0;
+        transform: none;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      #float-toggle {
+        width: 100%;
+        min-height: 44px;
+        border-radius: 12px 12px 0 0;
+        flex-direction: row;
+        padding: 10px 18px;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 -4px 18px rgba(156,74,111,0.25);
+      }
+
+      #float-toggle .toggle-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 0.85rem;
+      }
+
+      #float-toggle .toggle-icon {
+        transform: rotate(-90deg);
+      }
+
+      #floating-menu.closed #float-toggle .toggle-icon {
+        transform: rotate(90deg);
+      }
+
+      #float-panel {
+        width: 100% !important;
+        max-height: 380px;
+        border-radius: 0;
+        border: none;
+        border-top: 1px solid #e8d0dc;
+        box-shadow: 0 -6px 30px rgba(0,0,0,0.12);
+        overflow-y: auto;
+        opacity: 1 !important;
+        padding: 16px !important;
+      }
+
+      #floating-menu.closed #float-panel {
+        max-height: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        opacity: 0 !important;
+      }
+
+      body { padding-bottom: 56px; }
+    }
+
+    /* ===== FOOTER ===== */
     .footer {
       background: #9C4A6F;
       color: white;
@@ -324,10 +536,7 @@
       .container { margin-top: 20px; padding: 15px; }
       .section-content { padding: 20px; }
       .specialty-list ul { columns: 1; -webkit-columns: 1; -moz-columns: 1; }
-      .nt-link {
-        padding: 12px 20px;
-        font-size: 0.9rem;
-      }
+      .nt-link { padding: 12px 20px; font-size: 0.9rem; }
     }
 
     @media (max-width: 480px) {
@@ -339,6 +548,63 @@
 </head>
 
 <body>
+
+  <!-- ===== MENU FLUTUANTE — ESQUERDO, ABERTO POR PADRÃO ===== -->
+  <!-- Sem a classe "closed" = aberto por padrão -->
+  <nav id="floating-menu" aria-label="Notas Técnicas">
+
+    <!-- 1º: painel de links (lado esquerdo) -->
+    <div id="float-panel" role="region" aria-label="Links das Notas Técnicas">
+      <div id="float-panel-header">
+        <i class="fas fa-file-medical-alt"></i> Notas Técnicas
+      </div>
+
+      <a class="float-btn"
+         href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2025%20-%202025%20-%20Regula%C3%A7%C3%A3o%20de%20Consultas%20Especializadas%20via%20sistema%20VIVVER.pdf"
+         target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i>
+        NT 25/2025 — Consulta Especializada
+      </a>
+
+      <a class="float-btn"
+         href="https://portal.contagem.mg.gov.br/imgeditor/file/Aten%C3%A7%C3%A3o%20Primaria/INFORMES,%20NORMAS%20E%20NOTAS/NOTA%20TECNICA%20032-%20TELECONSULTORIA%20E%20REGULA%C3%87%C3%83O%20PARA%20ENCAMINHAMENTO.pdf"
+         target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i>
+        NT Conjunta 032 — Teleconsultoria
+      </a>
+
+      <a class="float-btn"
+         href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2003%20-%202019%20-%20Norma%20T%C3%A9cnica%20Especialidades%20Cir%C3%BArgicas%20-%20revis%C3%A3o%2012_2024.pdf"
+         target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i>
+        NT 03/2019 — Especialidades Cirúrgicas
+      </a>
+
+      <a class="float-btn"
+         href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Nota%20tecnica%20conjunta/NT%2024%20-%202025%20-%20Registro%20e%20Envio%20de%20Relat%C3%B3rio%20para%20Reclassifica%C3%A7%C3%A3o%20de%20Prioridade(2).pdf"
+         target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i>
+        NT 24/2025 — Relatório de Prioridade
+      </a>
+
+      <a class="float-btn"
+         href="https://portal.contagem.mg.gov.br/imgeditor/file/Aten%C3%A7%C3%A3o%20Especializada/NOTA%20INFORMATIVA%2001_2025%20-%20AGENDAMENTO%20INFECTOLOGIA%20SAE.pdf"
+         target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i>
+        NI 01/2025 — Agendamentos / SAE
+      </a>
+    </div>
+
+    <!-- 2º: aba de toggle (lado direito do painel) -->
+    <button id="float-toggle" aria-expanded="true" aria-controls="float-panel"
+            title="Mostrar/Ocultar Notas Técnicas">
+      <i class="fas fa-chevron-left toggle-icon"></i>
+      <span class="toggle-label">Notas Técnicas</span>
+    </button>
+
+  </nav>
+  <!-- ===== FIM MENU FLUTUANTE ===== -->
+
   <div class="header" id="header">
     <div class="header-content">
       <div class="header-left">
@@ -346,11 +612,10 @@
         <p class="header-subtitle">Central de Marcação de Consultas</p>
         <p class="header-subtitle">Referência do Setor: Enfermeira Giovanna</p>
       </div>
-
       <div class="header-right">
         <div class="header-info">
           <div>Página criada por Ana P. A. Silva Matr.201704</div>
-          <div>Assistente Administrativo - Diretoria de Regulação do Acesso</div>
+          <div>Assistente Administrativo - Diretoria de Regulação</div>
         </div>
       </div>
     </div>
@@ -361,7 +626,8 @@
       <div class="search-field">
         <i class="fas fa-search search-icon" aria-hidden="true"></i>
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar na página..." />
-        <button id="clearInlineButton" class="clear-inline" type="button" aria-label="Limpar pesquisa" title="Limpar">
+        <button id="clearInlineButton" class="clear-inline" type="button"
+                aria-label="Limpar pesquisa" title="Limpar">
           <i class="fas fa-times" aria-hidden="true"></i>
         </button>
       </div>
@@ -376,7 +642,6 @@
         <i class="fas fa-info-circle" aria-hidden="true"></i>
         <h2 class="section-title">Resumo dos Fluxos para Solicitação de Consultas Especializadas</h2>
       </div>
-
       <div class="section-content">
         <div data-search-block>
           <p class="intro-text">
@@ -394,36 +659,28 @@
         <i class="fas fa-info-circle" aria-hidden="true"></i>
         <h2 class="section-title">Especialidades que não exigem Teleconsultoria</h2>
       </div>
-
       <div class="section-content">
         <div data-search-block>
           <p class="intro-text">
-            Ressaltamos que, para as especialidades citadas logo abaixo, não é necessário anexar o relatório Feluma,
+            Ressaltamos que, para as especialidades citadas logo abaixo, não é necessário anexar o relatório da teleconsultoria,
             contudo, é obrigatório a inserção dos dados clínicos no sistema para que as guias sejam reguladas, não sendo
-            necessário o envio da guia física. Enfatizamos que as guias emitidas pelo CAE Iria Diniz/CAE Ressaca devem ser
-            cadastradas no sistema e anexada cópia da guia para que a mesma seja regulada.
+            necessário o envio da guia física. Demais orientações lêr a NT025/2025 e e NT Conjunta-032 que se encontra no menu ao lado.
           </p>
         </div>
-
-        <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+        <div class="specialty-list" data-search-block
+             style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
           <ul>
-            <li>Assistência a Saúde Trans e Travesti</li>
-            <li>Cirurgia Ambulatorial</li>
-            <li>Cirurgia Geral</li>
-            <li>Cirurgia Infantil</li>
-            <li>Cirurgia Plástica</li>
-            <li>Odontologia</li>
-            <li>Oftalmologia</li>
-            <li>Pequenas Cirurgias Urológicas</li>
-            <li>Procedimentos Hematológicos</li>
+            <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+            <p>• <strong>Assistência a Saúde Trans e Travesti</strong></p>
+            <p>• <strong>Cirurgia Ambulatorial</strong></p>
+            <p>• <strong>Cirurgia Geral</strong></p>
+            <p>• <strong>Cirurgia Infantil</strong></p>
+            <p>• <strong>Cirurgia Plástica</strong></p>
+            <p>• <strong>Oftalmologia</strong></p>
+            <p>• <strong>Ambulatorio de Bloqueio Neuro Muscular</strong></p>
+            <p>• <strong>Pequenas Cirurgias Urológicas</strong></p>
+            <p>• <strong>Procedimentos Hematológicos</strong></p>
           </ul>
-        </div>
-
-        <div class="nt-button-container">
-          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-external-link-alt"></i>
-            <span>Acessar NT 25/2025</span>
-          </a>
         </div>
       </div>
     </section>
@@ -434,51 +691,44 @@
         <i class="fas fa-info-circle" aria-hidden="true"></i>
         <h2 class="section-title">Especialidades que exigem Teleconsultoria</h2>
       </div>
-
       <div class="section-content">
         <div data-search-block>
           <p class="intro-text">
             Para essas especialidades é obrigatório anexar relatório da Teleconsultoria, conforme NT 25/2025 e NT CONJ-032.
           </p>
         </div>
-
-        <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+        <div class="specialty-list" data-search-block
+             style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
           <ul>
-            <li>Alergista Adulto/Infantil</li>
-            <li>Angiologia</li>
-            <li>Cardiologia Adulto</li>
-            <li>Cardiologia Infantil</li>
-            <li>Cirurgia Cabeça e Pescoço</li>
-            <li>Cirurgia Torácica</li>
-            <li>Coloproctologia</li>
-            <li>Dermatologia Geral</li>
-            <li>Dermatologia - Hanseníase</li>
-            <li>Endocrinologia Adulto</li>
-            <li>Endocrinologia Infantil</li>
-            <li>Gastroenterologia Infantil</li>
-            <li>Gastroenterologia Adulto</li>
-            <li>Geriatra</li>
-            <li>Hematologia</li>
-            <li>Infectologia Adulto</li>
-            <li>Nefrologia Adulto</li>
-            <li>Nefrologia Infantil</li>
-            <li>Neurocirurgia</li>
-            <li>Neurologia Adulto</li>
-            <li>Neurologia Infantil</li>
-            <li>Ortopedia</li>
-            <li>Otorrinolaringologia</li>
-            <li>Pneumologia Adulto</li>
-            <li>Pneumologia Infantil</li>
-            <li>Reumatologia</li>
-            <li>Urologia</li>
+            <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+            <p>• <strong>Alergista Adulto/Infantil</strong></p>
+            <p>• <strong>Angiologia</strong></p>
+            <p>• <strong>Cardiologia Adulto</strong></p>
+            <p>• <strong>Cardiologia Infantil</strong></p>
+            <p>• <strong>Cirurgia Cabeça e Pescoço</strong></p>
+            <p>• <strong>Cirurgia Torácica</strong></p>
+            <p>• <strong>Coloproctologia</strong></p>
+            <p>• <strong>Dermatologia Geral</strong></p>
+            <p>• <strong>Dermatologia - Hanseníase</strong></p>
+            <p>• <strong>Endocrinologia Adulto</strong></p>
+            <p>• <strong>Endocrinologia Infantil</strong></p>
+            <p>• <strong>Gastroenterologia Infantil</strong></p>
+            <p>• <strong>Gastroenterologia Adulto</strong></p>
+            <p>• <strong>Geriatria</strong></p>
+            <p>• <strong>Hematologia</strong></p>
+            <p>• <strong>Infectologia Adulto</strong></p>
+            <p>• <strong>Nefrologia Adulto</strong></p>
+            <p>• <strong>Nefrologia Infantil</strong></p>
+            <p>• <strong>NeuroCirurgia</strong></p>
+            <p>• <strong>Neurologia Adulto</strong></p>
+            <p>• <strong>Neurologia Infantil</strong></p>
+            <p>• <strong>Ortopedia</strong></p>
+            <p>• <strong>Otorrinolaringologia</strong></p>
+            <p>• <strong>Pneumologia Adulto</strong></p>
+            <p>• <strong>Pneumologia Infantil</strong></p>
+            <p>• <strong>Reumatologia</strong></p>
+            <p>• <strong>Urologia</strong></p>
           </ul>
-        </div>
-
-        <div class="nt-button-container">
-          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-external-link-alt"></i>
-            <span>Acessar NT 25/2025</span>
-          </a>
         </div>
       </div>
     </section>
@@ -487,58 +737,20 @@
     <section class="content-section">
       <div class="section-header">
         <i class="fas fa-user-md" aria-hidden="true"></i>
-        <h2 class="section-title">Consultas não reguladas</h2>
+        <h2 class="section-title">Solicitações não Reguladas</h2>
       </div>
-
       <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Para esses casos o próprio profissional poderá solicitar via sistema Vivver e realizar o agendamento de acordo
+            com a disponibilidade de vagas. Demais orientações lêr a NT025/2025 e NI 01/2025 Agendamentos SAE que se encontra no menu ao lado.
+          </p>
+        </div>
         <div class="success-box" data-search-block>
           <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
           <p>• <strong>Cirurgia Ambulatorial</strong></p>
           <p>• <strong>Mastologia</strong></p>
           <p>• <strong>Acolhimento SAE adulto/infantil</strong></p>
-          <p style="margin-top: 15px;">
-            Para esses casos o próprio profissional poderá solicitar a mesma via sistema Vivver e realizar o agendamento
-            de acordo com a disponibilidade de vagas.
-          </p>
-        </div>
-
-        <div data-search-block>
-          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
-            Os profissionais de saúde — médicos e enfermeiros (especificamente para Cirurgia Ambulatorial, Mastologia e
-            Acolhimento SAE adulto) deverão realizar a inserção da solicitação diretamente no sistema VIVVER, conforme
-            orientações descritas na NT 25/2025. Ao salvar a solicitação no sistema, será automaticamente exibida a tela do
-            Agendamento, permitindo ao profissional verificar a disponibilidade de vagas para realizar a marcação da
-            consulta.
-          </p>
-
-          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
-            Após a marcação no sistema o profissional solicitante poderá imprimir o protocolo do agendamento clicando no
-            menu ao lado onde constam os dados da consulta como data, local e horário.
-          </p>
-        </div>
-
-        <div class="info-box" data-search-block>
-          <h4><i class="fas fa-info-circle" aria-hidden="true"></i> Em caso de indisponibilidade de vagas</h4>
-          <p>
-            O profissional deverá imprimir a solicitação e orientar o usuário a protocolar o documento no setor
-            administrativo da unidade. O setor administrativo, por sua vez, deverá comunicar imediatamente à CMC a ausência
-            de vagas na especialidade, para que seja avaliada a necessidade de ajustes no fluxo, como a criação de fila de
-            espera.
-          </p>
-        </div>
-
-        <div data-search-block>
-          <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
-            Para <strong>Acolhimento SAE – adulto e infantil</strong>, as solicitações serão realizadas seguindo a
-            NI01/2025 – Agendamento de primeiras consultas no SAE/CTA Iria Diniz.
-          </p>
-        </div>
-
-        <div class="nt-button-container">
-          <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="nt-link" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-external-link-alt"></i>
-            <span>Acessar NT 25/2025</span>
-          </a>
         </div>
       </div>
     </section>
@@ -546,27 +758,79 @@
     <!-- SEÇÃO 5 -->
     <section class="content-section">
       <div class="section-header">
-        <i class="fas fa-desktop" aria-hidden="true"></i>
-        <h2 class="section-title">Como Encaminhar após a Teleconsultoria (Sistema Vivver)</h2>
+        <i class="fas fa-user-md" aria-hidden="true"></i>
+        <h2 class="section-title">Solicitações Reguladas</h2>
       </div>
+      <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Para essas solicitações o profissional deverá inserir as mesmas via sistema Vivver e aguardar o agendamento conforme a
+            classificação inserida na fila de espera pelo Médico Regulador. Demais orientações lêr a NT025/2025 e e NT Conjunta-032 que se encontra no menu ao lado.
+          </p>
+        </div>
+        <div class="specialty-list" data-search-block
+             style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+          <ul>
+            <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+            <p>• <strong>Alergista Adulto/Infantil</strong></p>
+            <p>• <strong>Angiologia</strong></p>
+            <p>• <strong>Cardiologia Adulto</strong></p>
+            <p>• <strong>Cardiologia Infantil</strong></p>
+            <p>• <strong>Cirurgia Cabeça e Pescoço</strong></p>
+            <p>• <strong>Cirurgia Torácica</strong></p>
+            <p>• <strong>Coloproctologia</strong></p>
+            <p>• <strong>Dermatologia Geral</strong></p>
+            <p>• <strong>Dermatologia - Hanseníase</strong></p>
+            <p>• <strong>Endocrinologia Adulto</strong></p>
+            <p>• <strong>Endocrinologia Infantil</strong></p>
+            <p>• <strong>Gastroenterologia Infantil</strong></p>
+            <p>• <strong>Gastroenterologia Adulto</strong></p>
+            <p>• <strong>Geriatria</strong></p>
+            <p>• <strong>Hematologia</strong></p>
+            <p>• <strong>Infectologia Adulto</strong></p>
+            <p>• <strong>Nefrologia Adulto</strong></p>
+            <p>• <strong>Nefrologia Infantil</strong></p>
+            <p>• <strong>NeuroCirurgia</strong></p>
+            <p>• <strong>Neurologia Adulto</strong></p>
+            <p>• <strong>Neurologia Infantil</strong></p>
+            <p>• <strong>Ortopedia</strong></p>
+            <p>• <strong>Otorrinolaringologia</strong></p>
+            <p>• <strong>Pneumologia Adulto</strong></p>
+            <p>• <strong>Pneumologia Infantil</strong></p>
+            <p>• <strong>Reumatologia</strong></p>
+            <p>• <strong>Urologia</strong></p>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-      <div class="section-content" data-search-block>
-        <h3 class="subsection-title">Passo a passo:</h3>
-
-        <div class="step-list">
-          <ol>
-            <li>Acessar a tela <strong>Solicitação de Procedimento de Serviço</strong> no Vivver.</li>
-            <li>Inserir o <strong>procedimento + especialidade + dados do paciente</strong>.</li>
-            <li>
-              Enviar para fila com:
-              <ul style="margin-top: 10px;">
-                <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
-                <li><strong>Motivo:</strong> REGULAÇÃO</li>
-              </ul>
-            </li>
-            <li><strong>Anexar o PDF da teleconsultoria</strong> na solicitação (etapa obrigatória).</li>
-            <li>Inserir novamente o PDF no <strong>SOAP do paciente</strong>.</li>
-          </ol>
+    <!-- SEÇÃO 6 -->
+    <section class="content-section">
+      <div class="section-header">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <h2 class="section-title">Solicitações Para Belo Horizonte</h2>
+      </div>
+      <div class="section-content">
+        <div data-search-block>
+          <p class="intro-text">
+            Diretrizes com orientações para solicitação e agendamentos se encontram na NT 025/2025 ou na Tela Inicial,
+            Tópico: Consulta Especializada/Resumo dos Fluxos.
+          </p>
+        </div>
+        <!-- Lista vermelha BH -->
+        <div class="specialty-list specialty-list-red" data-search-block>
+          <ul>
+            <h4><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Especialidades:</h4>
+            <p>• <strong>Ambulatório de Obesidade Grave</strong></p>
+            <p>• <strong>Ambulatório de Transexualização Infância / Adolescência</strong></p>
+            <p>• <strong>Clínica da Dor</strong></p>
+            <p>• <strong>Deformidade Crânio Facial / Fissura Lábio Palatal</strong></p>
+            <p>• <strong>Geneticista</strong></p>
+            <p>• <strong>Infertilidade</strong></p>
+            <p>• <strong>Medicina Fetal</strong></p>
+            <p>• <strong>Ortopedia pediátrica / Pé torto congênito</strong></p>
+            <p>• <strong>Oncologia</strong></p>
+          </ul>
         </div>
       </div>
     </section>
@@ -577,23 +841,55 @@
     <i class="fas fa-heartbeat" aria-hidden="true"></i>
     <p><strong>Diretoria de Regulação do Acesso</strong></p>
     <p>Sistema de Agendamento e Procedimentos</p>
-    <p>Página criada por Ana P. A. Silva - Matrícula 201704 — Assistente Administrativo — Diretoria de Regulação do Acesso</p>
+    <p>Página criada por Ana P. A. Silva - Matrícula 201704 — Assistente Administrativo — Diretoria de Regulação</p>
     <p>© 2024 - Todos os direitos reservados</p>
   </footer>
 
   <script>
     // Animação de entrada da página
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       document.body.style.opacity = '1';
     });
 
-    // Pesquisa automática por blocos (data-search-block)
+    // ===== MENU FLUTUANTE: toggle abrir/fechar =====
     (function () {
-      const input = document.getElementById('searchInput');
+      const menu   = document.getElementById('floating-menu');
+      const toggle = document.getElementById('float-toggle');
+      const icon   = toggle.querySelector('.toggle-icon');
+
+      function isMobile() { return window.innerWidth <= 768; }
+
+      function updateIcon() {
+        const isClosed = menu.classList.contains('closed');
+        if (isMobile()) {
+          // mobile: seta pra cima = abrir, pra baixo = fechar
+          icon.className = 'fas toggle-icon ' + (isClosed ? 'fa-chevron-up' : 'fa-chevron-down');
+        } else {
+          // desktop: seta pra esquerda = fechar (painel visível), pra direita = abrir
+          icon.className = 'fas toggle-icon ' + (isClosed ? 'fa-chevron-right' : 'fa-chevron-left');
+        }
+        toggle.setAttribute('aria-expanded', isClosed ? 'false' : 'true');
+      }
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menu.classList.toggle('closed');
+        updateIcon();
+      });
+
+      // Inicia com ícone correto (aberto por padrão)
+      updateIcon();
+
+      window.addEventListener('resize', updateIcon);
+    })();
+
+    // ===== PESQUISA POR BLOCOS =====
+    (function () {
+      const input    = document.getElementById('searchInput');
       const clearBtn = document.getElementById('clearInlineButton');
 
       const allSections = Array.from(document.querySelectorAll('.content-section'));
-      const blocks = Array.from(document.querySelectorAll('[data-search-block]'));
+      const blocks      = Array.from(document.querySelectorAll('[data-search-block]'));
 
       function escapeRegExp(str) {
         return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -608,9 +904,7 @@
 
       function highlightInBlock(block, term) {
         removeMarks(block);
-
         const regex = new RegExp(escapeRegExp(term), 'gi');
-
         const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
           acceptNode: (node) => {
             if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
@@ -621,41 +915,33 @@
             return NodeFilter.FILTER_ACCEPT;
           }
         });
-
         const textNodes = [];
         while (walker.nextNode()) textNodes.push(walker.currentNode);
 
         textNodes.forEach(node => {
           const value = node.nodeValue;
           if (!regex.test(value)) return;
-
           const frag = document.createDocumentFragment();
           let lastIndex = 0;
           regex.lastIndex = 0;
-
           let match;
           while ((match = regex.exec(value)) !== null) {
             const start = match.index;
-            const end = start + match[0].length;
-
+            const end   = start + match[0].length;
             frag.appendChild(document.createTextNode(value.slice(lastIndex, start)));
-
             const mark = document.createElement('mark');
             mark.textContent = value.slice(start, end);
             frag.appendChild(mark);
-
             lastIndex = end;
           }
-
           frag.appendChild(document.createTextNode(value.slice(lastIndex)));
           node.parentNode.replaceChild(frag, node);
         });
       }
 
       function applySearch() {
-        const term = input.value.trim();
+        const term    = input.value.trim();
         const hasText = term.length > 0;
-
         clearBtn.style.display = hasText ? 'flex' : 'none';
 
         allSections.forEach(sec => sec.classList.remove('search-hidden'));
@@ -670,7 +956,7 @@
         let firstVisibleBlock = null;
 
         blocks.forEach(block => {
-          const text = block.textContent.toLowerCase();
+          const text  = block.textContent.toLowerCase();
           const match = text.includes(termLower);
 
           if (!match) {
@@ -679,9 +965,7 @@
           } else {
             block.classList.remove('search-hidden');
             block.classList.add('search-match');
-
             highlightInBlock(block, term);
-
             if (!firstVisibleBlock) firstVisibleBlock = block;
           }
         });
@@ -697,18 +981,13 @@
       }
 
       input.addEventListener('input', applySearch);
-
       clearBtn.addEventListener('click', function () {
         input.value = '';
         input.focus();
         applySearch();
       });
-
       input.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-          input.value = '';
-          applySearch();
-        }
+        if (e.key === 'Escape') { input.value = ''; applySearch(); }
       });
     })();
 
@@ -717,13 +996,9 @@
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
   </script>
 </body>
 </html>
-
-
