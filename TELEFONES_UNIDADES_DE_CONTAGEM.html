@@ -12,13 +12,71 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        
+
+        /* ========== CABEÇALHO NOVO ESTILO ========== */
         .header-bg {
-            background-color: #9C4A6F;
+            background: linear-gradient(135deg, #6b2d5c 0%, #8b3a70 50%, #9c4781 100%);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(107, 45, 92, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Barra colorida no topo do cabeçalho */
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
+        }
+
+        /* Efeito de brilho decorativo no fundo */
+        .header-bg::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        .header-credits {
+            font-size: 0.78rem;
+            opacity: 0.65;
+            margin-top: 0.5rem;
+        }
+
+        .header-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            opacity: 0.95;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        /* ========== FIM DO CABEÇALHO ========== */
         
         .footer-bg {
-            background-color: #9C4A6F;
+            background: linear-gradient(135deg, #6b2d5c 0%, #8b3a70 50%, #9c4781 100%);
         }
         
         .card-hover {
@@ -106,19 +164,21 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Header -->
-    <div class="header-bg text-white py-8 mb-8">
+
+    <!-- ========== CABEÇALHO ATUALIZADO ========== -->
+    <div class="header-bg mb-8">
         <div class="container mx-auto px-4">
-            <div class="text-center">
-                <div class="flex justify-center items-center mb-4">
-                    <i class="fas fa-hospital-alt text-4xl mr-4"></i>
-                    <h1 class="text-4xl font-bold">Telefones das Unidades Básicas de Saúde Contagem - MG</h1>
+            <div class="text-center" style="position: relative; z-index: 1;">
+                <div class="flex justify-center items-center mb-3">
+                    <i class="fas fa-hospital-alt header-icon"></i>
+                    <h1 class="header-title">Telefones das Unidades Básicas de Saúde Contagem - MG</h1>
                 </div>
-                <p class="text-lg opacity-80 mt-2">Guia completo das UBS organizadas por região</p>
-                <p class="footer-credits">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do Acesso</p>
+                <p class="header-subtitle">Diretoria de Regulação do Acesso</p>
+                <p class="header-credits">Página Criada por Ana P. A. Silva Matr:201704/Assistente Adm. Diretoria de Regulação do Acesso</p>
             </div>
         </div>
     </div>
+    <!-- ========== FIM DO CABEÇALHO ========== -->
 
     <!-- Navigation -->
     <div class="container mx-auto px-4 mb-8 no-print">
@@ -706,7 +766,7 @@
                 </div>
 
                 <div class="ubs-card card-hover bg-white rounded-lg shadow-md p-6">
-                    <h3 class="font-semibold text-lg text-gray-800 mb-3">UBS Linda Vista</h3>
+                    <h3 class="font-semibold text-ig text-gray-800 mb-3">UBS Linda Vista</h3>
                     <div class="text-gray-600 space-y-2">
                         <p class="flex items-center"><i class="fas fa-map-pin icon-vinho mr-2"></i>Rua Arthur de Souza Costa, 10 – Linda Vista</p>
                         <p class="flex items-center"><i class="fas fa-phone icon-vinho mr-2"></i>
@@ -966,7 +1026,9 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer-bg text-white py-8 mt-12">
+    <footer class="footer-bg text-white py-8 mt-12" style="position: relative; overflow: hidden;">
+        <!-- Barra decorativa no topo do footer -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);"></div>
         <div class="container mx-auto px-6">
             <div class="text-center">
                 <h3 class="text-xl font-bold mb-2">Diretoria de Regulação em Saúde</h3>
@@ -976,7 +1038,4 @@
         </div>
     </footer>
 </body>
-
 </html>
-
-
