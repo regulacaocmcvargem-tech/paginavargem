@@ -22,6 +22,164 @@
             transition: opacity 0.3s ease;
         }
 
+        /* ========== MENU FLUTUANTE ========== */
+        .floating-panel {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%) translateX(0);
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            z-index: 9999;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(4px 4px 16px rgba(0,0,0,0.18));
+        }
+
+        .floating-panel.collapsed {
+            transform: translateY(-50%) translateX(-270px);
+        }
+
+        .panel-content {
+            background: #fff;
+            width: 270px;
+            border-radius: 0 16px 16px 0;
+            padding: 18px 16px 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* scrollbar suave */
+        .panel-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: #f0e6ed;
+            border-radius: 4px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: #9C4A6F;
+            border-radius: 4px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0e6ed;
+            margin-bottom: 4px;
+        }
+
+        .panel-header i {
+            color: #9C4A6F;
+            font-size: 1.1rem;
+        }
+
+        .panel-header span {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #9C4A6F;
+            text-transform: uppercase;
+        }
+
+        .panel-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .panel-link-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #9C4A6F;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            line-height: 1.35;
+            transition: background 0.2s ease, transform 0.15s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .panel-link-btn:hover {
+            background: #7b3757;
+            transform: translateX(3px);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .panel-link-btn i {
+            font-size: 1rem;
+            flex-shrink: 0;
+            opacity: 0.9;
+        }
+
+        .panel-link-btn.disabled {
+            background: #c9a0b5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .panel-link-btn.disabled::after {
+            content: ' (em breve)';
+            font-size: 0.7rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        /* ABA VERTICAL */
+        .panel-tab {
+            background: #9C4A6F;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 14px 7px;
+            border-radius: 0 10px 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 30px;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .panel-tab:hover {
+            background: #7b3757;
+        }
+
+        .panel-tab .tab-arrow {
+            font-size: 0.75rem;
+            transition: transform 0.35s ease;
+        }
+
+        .floating-panel.collapsed .panel-tab .tab-arrow {
+            transform: rotate(180deg);
+        }
+
+        .panel-tab .tab-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* ========== FIM DO MENU FLUTUANTE ========== */
+
         .header {
             background: #9C4A6F;
             color: white;
@@ -57,6 +215,13 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
+        .header-subtitle-small {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            opacity: 0.95;
+        }
+
         .header-subtitle {
             font-size: 0.9rem;
             opacity: 0.9;
@@ -78,23 +243,17 @@
 
         .search-container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto 0;
             padding: 20px;
-            margin-top: 20px;
         }
 
-        /* Barra de busca no estilo da imagem + CENTRALIZADA */
         .search-box {
             display: flex;
             align-items: center;
-            justify-content: center; /* CENTRALIZA */
+            justify-content: center;
             gap: 0;
             background: transparent;
             padding: 0;
-            border-radius: 0;
-            box-shadow: none;
-            backdrop-filter: none;
-            border: none;
         }
 
         .search-field {
@@ -115,7 +274,7 @@
 
         .search-input {
             width: 100%;
-            padding: 12px 44px 12px 42px; /* espaço p/ lupa e p/ X */
+            padding: 12px 44px 12px 42px;
             border: 2px solid #9C4A6F;
             border-radius: 6px;
             font-size: 1rem;
@@ -129,7 +288,6 @@
             box-shadow: 0 0 0 3px rgba(156, 74, 111, 0.15);
         }
 
-        /* Botão X dentro do input (aparece só quando tem texto) */
         .clear-inline {
             position: absolute;
             right: 10px;
@@ -142,7 +300,7 @@
             width: 30px;
             height: 30px;
             border-radius: 6px;
-            display: none; /* controlado por JS */
+            display: none;
             align-items: center;
             justify-content: center;
             transition: background 0.2s ease;
@@ -448,6 +606,10 @@
             line-height: 1.6;
         }
 
+        .nt-button-container {
+            margin-top: 10px;
+        }
+
         .footer {
             background: #9C4A6F;
             color: white;
@@ -475,13 +637,11 @@
             font-weight: 600;
         }
 
-        /* Marcação do bloco encontrado */
         .search-match {
             outline: 2px solid rgba(156, 74, 111, 0.25);
             border-radius: 10px;
         }
 
-        /* Bloco/section escondido quando não bate */
         .search-hidden {
             display: none !important;
         }
@@ -521,6 +681,15 @@
                 -webkit-columns: 1;
                 -moz-columns: 1;
             }
+
+            .floating-panel.collapsed {
+                transform: translateY(-50%) translateX(-270px);
+            }
+
+            .panel-content {
+                width: 260px;
+                max-height: 70vh;
+            }
         }
 
         @media (max-width: 480px) {
@@ -539,21 +708,113 @@
     </style>
 </head>
 <body>
-    <div class="header" id="header">
+
+    <!-- ==================== MENU FLUTUANTE — NOTAS TÉCNICAS ==================== -->
+    <div class="floating-panel" id="floatingPanel">
+
+        <!-- Conteúdo do painel -->
+        <div class="panel-content">
+            <div class="panel-header">
+                <i class="fas fa-file-medical-alt"></i>
+                <span>Notas Técnicas</span>
+            </div>
+            <div class="panel-links">
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2025%20-%202025%20-%20Regula%C3%A7%C3%A3o%20de%20Consultas%20Especializadas%20via%20sistema%20VIVVER.pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 25/2025 — Consulta Especializada
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Aten%C3%A7%C3%A3o%20Primaria/INFORMES,%20NORMAS%20E%20NOTAS/NOTA%20TECNICA%20032-%20TELECONSULTORIA%20E%20REGULA%C3%87%C3%83O%20PARA%20ENCAMINHAMENTO.pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT Conjunta 032 — Teleconsultoria
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2003%20-%202019%20-%20Norma%20T%C3%A9cnica%20Especialidades%20Cir%C3%BArgicas%20-%20revis%C3%A3o%2012_2024.pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 03/2019 — Especialidades Cirúrgicas
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Nota%20tecnica%20conjunta/NT%2024%20-%202025%20-%20Registro%20e%20Envio%20de%20Relat%C3%B3rio%20para%20Reclassifica%C3%A7%C3%A3o%20de%20Prioridade(2).pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 24/2025 — Relatório de Prioridade
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Aten%C3%A7%C3%A3o%20Especializada/NOTA%20INFORMATIVA%2001_2025%20-%20AGENDAMENTO%20INFECTOLOGIA%20SAE.pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NI 01/2025 — Agendamentos / SAE
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2008%20-%202023%20-%20Crit%C3%A9rios%20de%20encaminhamento%20ao%20Amb%20endoc%20e%20obeso%20grave%20em%20BH(1).pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 08/2023 — Amb. Endoc. Obesidade Grave
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Central%20de%20marca%C3%A7%C3%A3o/NT%2026%20-%202025%20-%20Infertilidade%20Conjugal(1).pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 26/2025 — Infertilidade Conjugal
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Nota%20tecnica%20conjunta/NT%2024%20-%202025%20-%20Registro%20e%20Envio%20de%20Relat%C3%B3rio%20para%20Reclassifica%C3%A7%C3%A3o%20de%20Prioridade(2).pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 24/2025 - Relatórios Para Prorização
+                </a>
+
+                <a class="panel-link-btn"
+                   href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Oncologia/NT%2002%20-%202020%20-%20Norma%20T%C3%A9cnica%20Oncologia.pdf"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf"></i>
+                    NT 02/2020 - Oncologia
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Aba lateral de toggle -->
+        <button class="panel-tab" id="panelToggle" aria-label="Abrir/Fechar menu de Notas Técnicas">
+            <i class="fas fa-chevron-left tab-arrow"></i>
+            <span class="tab-label">Notas Técnicas</span>
+        </button>
+
+    </div>
+    <!-- ==================== FIM DO MENU FLUTUANTE ==================== -->
+
+
+    <!-- ==================== CABEÇALHO ==================== -->
+    <header class="header" id="header">
         <div class="header-content">
             <div class="header-left">
-                <h1 class="header-title">Diretoria de Regulação/CEAPS/CMC - Resumo dos Fluxos Consultas Especializadas</h1>
-                <p class="header-subtitle">Sistema de Agendamento e Procedimentos</p>
+                <h1 class="header-title">Diretoria de Regulação do Acesso</h1>
+                <p class="header-subtitle-small">Resumo dos Fluxos para Agendamentos/Consultas Especializadas</p>
+                <p class="header-subtitle-small">Central de Marcação de Consultas</p>
+                <p class="header-subtitle-small">Referência do setor: Enfermeira Giovanna</p>
             </div>
             <div class="header-right">
                 <div class="header-info">
-                    <div>Página criada por Ana P. A. Silva Matr.201704</div>
-                    <div>Assistente Administrativo - Diretoria de Regulação - CMC - CEAPS</div>
+                    <div>Página criada por Ana P. A. Silva — Matr. 201704</div>
+                    <div>Assistente Administrativo — Diretoria de Regulação</div>
                 </div>
             </div>
         </div>
-    </div>
-    
+    </header>
+
+    <!-- ==================== BARRA DE BUSCA ==================== -->
     <div class="search-container">
         <div class="search-box">
             <div class="search-field">
@@ -566,7 +827,10 @@
         </div>
     </div>
 
+    <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
     <div class="container">
+
+        <!-- SEÇÃO 1 — Resumo dos Fluxos -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-info-circle"></i>
@@ -574,43 +838,44 @@
             </div>
             <div class="section-content">
                 <div data-search-block>
-                    <p class="intro-text">Este documento apresenta o resumo dos fluxos para marcação de consultas especializadas e exames, organizando os procedimentos por demanda e especificando os canais apropriados para cada tipo de serviço.</p>
+                    <p class="intro-text">Está página apresenta o resumo dos fluxos para a realização dos Agendamentos/Consultas Especializadas, organizando os procedimentos por demanda, especificando os canais apropriados para inserção de cada solicitação.</p>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 2 — Teleconsultoria -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-headset"></i>
-                <h2 class="section-title">Teleconsultoria – Regras Principais</h2>
+                <h2 class="section-title">Teleconsultoria</h2>
             </div>
             <div class="section-content">
-                <div data-search-block>
-                    <h3 class="subsection-title">Quando é obrigatória?</h3>
+
                     <div class="alert-box">
                         <h4><i class="fas fa-exclamation-triangle"></i> Atenção!</h4>
-                        <p>A partir do dia <strong>15 de Dezembro/2025</strong>, toda solicitação para especialidades listadas no Quadro 1 da NT 25/2025 só pode ser inserida no Vivver com a teleconsultoria anexada.</p>
+                        <p>A partir do dia <strong>15 de Dezembro/2025</strong>, toda solicitação para especialidades listadas no Quadro 1 da NT 25/2025 só poderão ser inseridas no sistema Vivver com a teleconsultoria anexada.</p>
                     </div>
-                </div>
 
                 <div data-search-block>
                     <h3 class="subsection-title">Como funciona a teleconsultoria?</h3>
                     <div class="step-list">
                         <ol>
-                            <li><strong>Médico da APS</strong> identifica possível necessidade de especialista.</li>
-                            <li>Abre solicitação na plataforma <strong>FELUMA</strong> ("Teleconsultoria Contagem").</li>
-                            <li>Preenche quadro clínico completo (história, exames, evolução).</li>
+                            <li><strong>Médico da APS</strong> identifica possível necessidade de encaminhamento para o especialista.</li>
+                            <li>O mesmo abre solicitação na plataforma <strong>"Teleconsultoria Contagem"</strong></li>
+                            <li>Preenche o quadro clínico completo do paciente (história, exames, evolução).</li>
                             <li><strong>Teleconsultor responde em até 72h</strong> com condutas e orientações.</li>
                         </ol>
                     </div>
 
                     <h4 class="sub-subsection-title">Desfechos possíveis:</h4>
                     <ul style="color: #6c757d; line-height: 1.8; margin-left: 20px;">
-                        <li><strong>Caso resolvível na APS:</strong> teleconsultor orienta condutas e o caso permanece na unidade.</li>
-                        <li><strong>Necessidade de especialista:</strong> teleconsultor classifica risco e orienta exames e fluxo.</li>
+                        <li><strong>Casos com resolução na APS:</strong> Teleconsultor orienta condutas e o caso permanece na unidade básica de saúde.</li>
+                        <li><strong>Casos Sem Resolução na APS:</strong> Após a última resposta, o profissional deve registrar <strong>Desfecho Profissional</strong> e fechar a teleconsultoria.</li>
                     </ul>
-                    <p style="color: #6c757d; line-height: 1.8; margin-top: 15px;">Após a última resposta, o profissional deve registrar <strong>Desfecho Profissional</strong> e fechar a teleconsultoria.</p>
                 </div>
+
+                    <h3 class="subsection-title">Registros obrigatórios</h3>
+                    <p style="color: #6c757d; line-height: 1.8;">Toda conduta deve constar no prontuário eletrônico do paciente via sistema Vivver, desde a primeira consulta.</p>
 
                 <div data-search-block>
                     <h3 class="subsection-title">Organização da Agenda</h3>
@@ -618,322 +883,355 @@
                         <h4><i class="fas fa-calendar-check"></i> Importante</h4>
                         <p>UBS deve reservar horário específico na agenda médica para:</p>
                         <ul>
-                            <li>Registrar e acompanhar teleconsultorias</li>
-                            <li>Realizar retornos dos pacientes após a resposta</li>
-                            <li>Cumprir orientações do teleconsultor</li>
+                            <li>Registrar e acompanhar teleconsultorias.</li>
+                            <li>Realizar retornos dos pacientes após a resposta.</li>
+                            <li>Cumprir orientações do teleconsultor.</li>
                         </ul>
-                    </div>
-
-                    <h3 class="subsection-title">Registros obrigatórios</h3>
-                    <p style="color: #6c757d; line-height: 1.8;">Toda conduta deve constar no prontuário eletrônico desde a primeira consulta.</p>
-
-                    <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                        Acessar NT 25/2025
-                    </a>
-                </div>
-
-                <div class="alert-box" data-search-block>
-                    <h4><i class="fas fa-bell"></i> IMPORTANTE</h4>
-                    
-                    <h3 class="subsection-title">Especialidades que NÃO exigem Teleconsultoria:</h3>
-                    <div class="specialty-list" style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
-                        <ul>
-                            <li>Cirurgia Ambulatorial</li>
-                            <li>Cirurgia Geral</li>
-                            <li>Cirurgia Infantil</li>
-                            <li>Cirurgia Plástica</li>
-                            <li>Odontologia</li>
-                            <li>Oftalmologia</li>
-                            <li>Pequenas Cirurgias Urológicas</li>
-                            <li>Procedimentos Hematológicos</li>
-                        </ul>
-                        <p style="color: #01579b;">Ressaltamos que, para as especialidades citadas acima, não é necessário anexar o relatório Feluma.</p>
-                        <p style="color: #01579b;">Contudo, é obrigatória a inserção dos dados clínicos no sistema para que as guias sejam reguladas, não sendo necessário o envio da guia física.</p>
-                        <p style="color: #01579b;">As guias emitidas pelo CAE Iria Diniz/CAE Ressaca devem ser cadastradas no sistema e anexada cópia da guia para que a mesma seja regulada.</p>
-                    </div>
-
-                    <h3 class="subsection-title">Especialidades que exigem Teleconsultoria:</h3>
-                    <div class="specialty-list" style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
-                        <ul>
-                            <li>Alergista Adulto/Infantil</li>
-                            <li>Angiologia</li>
-                            <li>Assistência à Saúde Trans e Travesti</li>
-                            <li>Cardiologia Adulto</li>
-                            <li>Cardiologia Infantil</li>
-                            <li>Cirurgia Cabeça e Pescoço</li>
-                            <li>Cirurgia Torácica</li>
-                            <li>Coloproctologia</li>
-                            <li>Dermatologia Geral</li>
-                            <li>Dermatologia - Hanseníase</li>
-                            <li>Endocrinologia Adulto</li>
-                            <li>Endocrinologia Infantil</li>
-                            <li>Gastroenterologia Infantil</li>
-                            <li>Gastroenterologia Adulto</li>
-                            <li>Geriatra</li>
-                            <li>Hematologia</li>
-                            <li>Infectologia Adulto</li>
-                            <li>Nefrologia Adulto</li>
-                            <li>Nefrologia Infantil</li>
-                            <li>Neurocirurgia</li>
-                            <li>Neurologia Adulto</li>
-                            <li>Neurologia Infantil</li>
-                            <li>Ortopedia</li>
-                            <li>Otorrinolaringologia</li>
-                            <li>Pneumologia Adulto</li>
-                            <li>Pneumologia Infantil</li>
-                            <li>Procedimentos Hematológicos</li>
-                            <li>Reumatologia</li>
-                            <li>Urologia</li>
-                        </ul>
-                        <p style="color: #01579b;">Para essas especialidades é obrigatório anexar relatório da Teleconsultoria, conforme NT 25/2025 e NT CONJ-032.</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 3 — Especialidades sem Teleconsultoria -->
         <div class="content-section">
             <div class="section-header">
-                <i class="fas fa-desktop"></i>
-                <h2 class="section-title">Como Encaminhar após a Teleconsultoria (Sistema Vivver)</h2>
-            </div>
-            <div class="section-content" data-search-block>
-                <h3 class="subsection-title">Passo a passo:</h3>
-                <div class="step-list">
-                    <ol>
-                        <li>Acessar a tela <strong>Solicitação de Procedimento de Serviço</strong> no Vivver.</li>
-                        <li>Inserir o <strong>procedimento + especialidade + dados do paciente</strong>.</li>
-                        <li>Enviar para fila com:
-                            <ul style="margin-top: 10px;">
-                                <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
-                                <li><strong>Motivo:</strong> REGULAÇÃO</li>
-                            </ul>
-                        </li>
-                        <li><strong>Anexar o PDF da teleconsultoria</strong> na solicitação (etapa obrigatória).</li>
-                        <li>Inserir novamente o PDF no <strong>SOAP do paciente</strong>.</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-section">
-            <div class="section-header">
-                <i class="fas fa-user-md"></i>
-                <h2 class="section-title">Regulação e Agendamento (NT 25/2025)</h2>
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                <h2 class="section-title">Especialidades que não exigem Teleconsultoria</h2>
             </div>
             <div class="section-content">
+
                 <div data-search-block>
-                    <h3 class="subsection-title">Consultas Especializadas – Como são classificadas</h3>
+                    <p class="intro-text">
+                        Ressaltamos que, para as especialidades citadas logo abaixo, não é necessário anexar o relatório da teleconsultoria,
+                        contudo, é obrigatório a inserção dos dados clínicos no sistema para que as guias sejam reguladas, não sendo
+                        necessário o envio da guia física. Demais orientações lêr a NT025/2025 e e NT Conjunta-032 que se encontra no menu ao lado.
+                    </p>
+                </div>
 
-                    <h4 class="sub-subsection-title">Consultas não reguladas (sem passar pela CMC)</h4>
-                    <div class="success-box">
-                        <h4><i class="fas fa-check-circle"></i> Especialidades</h4>
-                        <p>• <strong>Cirurgia Ambulatorial</strong></p>
-                        <p>• <strong>Mastologia</strong></p>
-                        <p>• <strong>Acolhimento SAE adulto/infantil</strong></p>
-                        <p style="margin-top: 15px;">Nesses casos, o próprio profissional agenda direto no sistema Vivver.</p>
-                    </div>
-
-                    <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">Os profissionais de saúde — médicos e enfermeiros (especificamente para Cirurgia Ambulatorial, Mastologia e Acolhimento SAE adulto) deverão realizar a inserção da solicitação diretamente no sistema VIVVER, conforme orientações descritas na NT 25/2025. Ao salvar a solicitação no sistema, será automaticamente exibida a tela de Agendamento, permitindo ao profissional verificar a disponibilidade de vagas e realizar o agendamento da consulta.</p>
-
-                    <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">O profissional solicitante deverá efetuar o agendamento da consulta, imprimir o comprovante gerado pelo sistema VIVVER e entregá-lo ao usuário.</p>
-
-                    <div class="info-box">
-                        <h4><i class="fas fa-info-circle"></i> Em caso de indisponibilidade de vagas</h4>
-                        <p>O profissional deverá imprimir a solicitação e orientar o usuário a protocolar o documento no setor administrativo da unidade. O setor administrativo, por sua vez, deverá comunicar imediatamente à CMC a ausência de vagas na especialidade, para que seja avaliada a necessidade de ajustes no fluxo, como a criação de fila de espera.</p>
-                    </div>
-
-                    <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">Para <strong>Acolhimento SAE – adulto e infantil</strong>, as solicitações serão realizadas seguindo a NI01/2025 – Agendamento de primeiras consultas no SAE/CTA Iria Diniz.</p>
-
-                    <div class="alert-box">
-                        <h4><i class="fas fa-bell"></i> IMPORTANTE</h4>
-                        <p>Sempre que houver alterações no rol de consultas especializadas reguladas e não reguladas, a Rede será oficialmente comunicada por meio da atualização desta Nota Técnica.</p>
-                    </div>
-
-                    <h4 class="sub-subsection-title">Consultas reguladas (SUS-Contagem)</h4>
-                    <p style="color: #6c757d; line-height: 1.8;">Todas as especialidades da rede própria reguladas via Central de Marcação de Consultas.</p>
-                    <p style="color: #6c757d; line-height: 1.8; margin-top: 10px;">A Rede SUS-Contagem possui especialidades próprias que são ofertadas. Para acesso a essas especialidades o profissional deverá realizar os procedimentos conforme a Nota Técnica Conjunta - 032 - Integração da teleconsultoria e regulação para encaminhamentos aos especialistas e a NT25/2025. Deverá ser anexado o <strong>"Desfecho da Teleconsultoria"</strong>, na solicitação.</p>
+                <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+                    <ul>
+                        <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+                        <li>Assistência à Saúde Trans e Travesti</li>
+                        <li>Cirurgia Ambulatorial</li>
+                        <li>Cirurgia Geral</li>
+                        <li>Cirurgia Infantil</li>
+                        <li>Cirurgia Plástica</li>
+                        <li>Odontologia</li>
+                        <li>Oftalmologia</li>
+                        <li>Pequenas Cirurgias Urológicas</li>
+                        <li>Procedimentos Hematológicos</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 4 — Especialidades com Teleconsultoria -->
         <div class="content-section">
             <div class="section-header">
-                <i class="fas fa-hospital"></i>
-                <h2 class="section-title">Consultas pactuadas (BH – PPI)</h2>
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                <h2 class="section-title">Especialidades que exigem Teleconsultoria</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <p style="color: #6c757d; line-height: 1.8; margin-bottom: 15px;">Algumas especialidades seguem critérios específicos (Obesidade, Transexualização, Clínica da Dor, Medicina Fetal, etc.). Exigem anexos e justificativas específicas.</p>
+            <div class="section-content">
 
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                        <thead>
-                            <tr style="background: #9C4A6F; color: white;">
-                                <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">ESPECIALIDADE</th>
-                                <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">ORIENTAÇÃO / REFERÊNCIA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ambulatório de Obesidade Grave</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">Todas as orientações constam na NT 08/2023 — Critérios de encaminhamento ao ambulatório de endocrinologia (obeso grave – BH). Obrigatório anexar o Formulário para acompanhamento da obesidade à solicitação de consulta, devidamente preenchido.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ambulatório de Transexualização Infância / Adolescência</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critérios:</strong> Idade de 7 anos a 17 anos, 11 meses e 29 dias. Posteriormente, o adolescente deverá ser encaminhado para o Amb Espec no Processo Transexualizador Adulto.<br><br>O encaminhamento deverá conter história sucinta informando idade do usuário e aspectos relacionados à definição de caso. Informar os seguintes fatores agravantes: sofrimento mental associado a não paridade de gênero, uso de automedicação e procedência de unidade de cumprimento de medida socioeducativa.</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Clínica da Dor</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por Ortopedista, Neurologista, Neurocirurgião ou Reumatologista. A solicitação deverá conter as informações clínicas, motivo do encaminhamento, medicamentos em uso (para dor e comorbidades), exames complementares realizados recentemente. O especialista deverá preencher a Ficha de encaminhamento para a Clínica de Dor do HC/UFMG.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Deformidade Crânio Facial / Fissura Lábio Palatal</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por profissional médico ou dentista, após acolhimento e identificação prévia da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver), hipótese diagnóstica e tratamento.</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Geneticista</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por profissional médico, após acolhimento e identificação prévia da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver), hipótese diagnóstica e tratamento realizado.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Infertilidade</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">Todas as orientações constam na NT 26 - 2025 - Infertilidade Conjugal</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Medicina Fetal</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critérios:</strong> Malformação fetal na gestação atual (fenda labial ou palatina, sindactilia, microcefalia, hipoplasia ou ausência de membro, meningomielocele / espinha bífida, higroma cístico, onfalocele, gastrosquise, anencefalia, cardiopatia), arritmia cardíaca fetal ou Isoimunização Rh.<br><br>A oferta tem o objetivo de proporcionar diagnóstico, aconselhamento e tratamento de intercorrências ligadas ao feto.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ortopedia pediátrica / Pé torto congênito</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critério:</strong> crianças menores de 3 meses. O encaminhamento deverá ser realizado por profissional médico, após acolhimento e identificação da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver) e hipótese diagnóstica.</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Oncologia</td>
-                                <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento continuará sendo realizado através de guia física GUIA DE REFERÊNCIA E CONTRARREFERÊNCIA. A guia + documentos pessoais + cópia dos exames deverão ser protocolados pelo usuário ou responsável no setor de Oncologia/Central de Regulação, no endereço: Av. João César de Oliveira, 2415 – B. Eldorado.<br><br><strong>Dúvidas:</strong> (31) 992570767 (WhatsApp).<br><br>Conforme orientações da NT 02/2020 — Norma Técnica Oncologia.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div data-search-block>
+                    <p class="intro-text">
+                        Para essas especialidades é obrigatório anexar relatório da Teleconsultoria, conforme NT 25/2025 e NT CONJ-032.
+                    </p>
+                </div>
+
+                <div class="specialty-list" data-search-block style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-left-color: #0288d1;">
+                    <ul>
+                        <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+                        <li>Alergista Adulto/Infantil</li>
+                        <li>Angiologia</li>
+                        <li>Cardiologia Adulto</li>
+                        <li>Cardiologia Infantil</li>
+                        <li>Cirurgia Cabeça e Pescoço</li>
+                        <li>Cirurgia Torácica</li>
+                        <li>Coloproctologia</li>
+                        <li>Dermatologia Geral</li>
+                        <li>Dermatologia - Hanseníase</li>
+                        <li>Endocrinologia Adulto</li>
+                        <li>Endocrinologia Infantil</li>
+                        <li>Gastroenterologia Infantil</li>
+                        <li>Gastroenterologia Adulto</li>
+                        <li>Geriatra</li>
+                        <li>Hematologia</li>
+                        <li>Infectologia Adulto</li>
+                        <li>Nefrologia Adulto</li>
+                        <li>Nefrologia Infantil</li>
+                        <li>Neurocirurgia</li>
+                        <li>Neurologia Adulto</li>
+                        <li>Neurologia Infantil</li>
+                        <li>Ortopedia</li>
+                        <li>Otorrinolaringologia</li>
+                        <li>Pneumologia Adulto</li>
+                        <li>Pneumologia Infantil</li>
+                        <li>Reumatologia</li>
+                        <li>Urologia</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 5 — Consultas não reguladas -->
         <div class="content-section">
             <div class="section-header">
-                <i class="fas fa-file-alt"></i>
-                <h2 class="section-title">Protocolo de Solicitação</h2>
+                <i class="fas fa-user-md" aria-hidden="true"></i>
+                <h2 class="section-title">Especialidades não reguladas</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <p style="color: #6c757d; line-height: 1.8;">Para as solicitações de consultas especializadas que não estiverem incluídas na Teleconsultoria, a emissão do <strong>Protocolo de Solicitação</strong> é uma etapa fundamental. Este protocolo é a comprovação oficial de que o profissional realizou a solicitação no sistema, garantindo a rastreabilidade e a segurança das informações inseridas.</p>
+            <div class="section-content">
 
-                <div class="success-box" style="margin-top: 20px;">
-                    <h4><i class="fas fa-clipboard-check"></i> Procedimento</h4>
-                    <p>Após a inserção da solicitação no sistema, o profissional solicitante deve gerar o <strong>Protocolo Procedimento Serviço</strong>, e o protocolo gerado deve ser entregue ao usuário.</p>
+                 <div data-search-block>
+                    <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
+                        Para essas especialidades, especificamente para Cirurgia Ambulatorial, Mastologia e Acolhimento SAE Adulto os profissionais de saúde (médicos e enfermeiros)
+                        deverão inserir a solicitação diretamente no sistema VIVVER, conforme as orientações descritas na NT 25/2025.
+                        Após salvar a solicitação no sistema, será exibida automaticamente uma tela com a disponibilidade de vagas para agendamento,
+                        permitindo ao profissional consultar as opções disponíveis e realizar a marcação da consulta de forma imediata.
+                        Após realizar o agendamento o profissional poderá imprimir o protocolo da consulta, com os dados do agendamento como local, data e horário.
+                        Demais orientações gentileza lêr a NT025/2025 e e NT Conjunta-032 que se encontra no menu ao lado.
+                    </p>
                 </div>
 
-                <p style="color: #6c757d; line-height:  1.8; margin-top: 15px;">O protocolo é importante para o acompanhamento posterior do usuário, pois permite verificar a situação da solicitação na fila de espera, facilitando o monitoramento e a continuidade do cuidado.</p>
+                <div data-search-block>
+                    <p style="color: #6c757d; line-height: 1.8; margin: 15px 0;">
+                        Para <strong>Acolhimento SAE – adulto e infantil</strong>, as solicitações serão realizadas seguindo a
+                        NI01/2025 – Agendamento de primeiras consultas no SAE/CTA Iria Diniz (a mesma se encontra no Menu ao lado).
+                    </p>
+                </div>
+
+                <div class="success-box" data-search-block>
+                    <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Especialidades:</h4>
+                    <p>• <strong>Cirurgia Ambulatorial</strong></p>
+                    <p>• <strong>Mastologia</strong></p>
+                    <p>• <strong>Acolhimento SAE adulto/infantil</strong></p>
+                </div>
+
+                <div class="info-box" data-search-block>
+                    <h4><i class="fas fa-info-circle" aria-hidden="true"></i> Em caso de indisponibilidade de vagas</h4>
+                    <p>
+                    O profissional deverá imprimir a solicitação e orientar o usuário a protocolar o documento no setor administrativo da unidade.
+                    O setor administrativo, por sua vez, deverá comunicar imediatamente à CMC a ausência de vagas na especialidade,
+                    para que seja avaliada a necessidade de ajustes no fluxo, como, por exemplo, a criação de fila de espera.
+                    </p>
+                </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 6 — Como Encaminhar após a Teleconsultoria -->
+        <div class="content-section">
+            <div class="section-header">
+                <i class="fas fa-desktop" aria-hidden="true"></i>
+                <h2 class="section-title">Especialidades Reguladas/Casos sem Resolução na APS</h2>
+            </div>
+            <div class="section-content">
+
+                <div data-search-block>
+                    <h3 class="subsection-title">Como Encaminhar após avaliação da Teleconsultoria: (Sistema Vivver/Consulta Especializada)</h3>
+                    <div class="step-list">
+                        <ol>
+                            <li>Acessar a tela <strong>Solicitação de Procedimento de Serviço</strong> no sistema Vivver.</li>
+                            <li>Inserir o <strong>Número de Prontuário do Paciente</strong>.</li>
+                            <li>Clicar no <strong>Sinal de (+) Destacado em verde</strong> no topo da tela.</li>
+                            <li>Preencher os campos do tópico dados da Solicitação <strong>Tipo de Serviço: Consulta Especializada</strong>.</li>
+                            <li>No campo Dados da Agenda Preencher todos os tópicos <strong>Campo Procedimento: Consulta Médica em atenção Especializada</strong>.</li>
+                            <li>Para escolher a Especialidade <strong>Preencher clicnado no campo CBO</strong>.</li>
+                            <li>Salvar para enviar para a fila/ <strong>Clicar no Disquete Verde no topo da tela</strong>.
+                                Enviar para fila com:
+                                <ul style="margin-top: 10px;">
+                                    <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
+                                    <li><strong>Motivo:</strong> REGULAÇÃO</li>
+                                </ul>
+                            </li>
+                            <li><strong>Anexar o PDF da teleconsultoria</strong> na solicitação (etapa obrigatória).</li>
+                            <li>Inserir novamente o PDF no <strong>SOAP do paciente</strong>.</li>
+                            <li><strong>Demais orientações gentileza lêr a NT025/2025 que se encontra no menu ao lado.</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 9 — Verificação Diária de Pendências -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-exclamation-circle"></i>
                 <h2 class="section-title">Verificação Diária de Pendências</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <div class="alert-box">
-                    <h4><i class="fas fa-clock"></i> É obrigatória!</h4>
-                    <p>• As pendências devem ser verificadas no sistema Vivver <strong>todos os dias</strong></p>
-                    <p>• Prazo de resolução: <strong>15 dias</strong></p>
-                    <p>• Após 30 dias sem solução → <strong>solicitação é excluída</strong></p>
-                </div>
+            <div class="section-content">
 
-                <p style="color: #6c757d; line-height: 1.8; margin-top: 15px;">Gerentes e administrativos da unidade devem ajudar os profissionais médicos e enfermeiros a monitorar.</p>
+                <div data-search-block>
+                    <div class="alert-box">
+                        <h4><i class="fas fa-clock"></i> É obrigatória!</h4>
+                        <p>• As pendências devem ser verificadas no sistema Vivver <strong>todos os dias</strong></p>
+                        <p>• Prazo de resolução: <strong>15 dias</strong></p>
+                        <p>• Após 30 dias sem solução → <strong>solicitação é excluída</strong></p>
+                        <p>• Monitorar os Novos Registros → <strong>Gerentes e administrativos da unidade devem ajudar os profissionais médicos e enfermeiros a monitorar.</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 7 — Consultas pactuadas BH - PPI -->
+        <div class="content-section">
+            <div class="section-header">
+                <i class="fas fa-hospital"></i>
+                <h2 class="section-title">Consultas pactuadas (BH – PPI)</h2>
+            </div>
+            <div class="section-content">
+
+                <div data-search-block>
+                    <p style="color: #6c757d; line-height: 1.8; margin-bottom: 15px;">Algumas especialidades seguem critérios específicos (Obesidade, Transexualização, Clínica da Dor, Medicina Fetal, etc.). Exigem anexos e justificativas específicas.</p>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background: #9C4A6F; color: white;">
+                                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">ESPECIALIDADE</th>
+                                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">ORIENTAÇÃO / REFERÊNCIA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ambulatório de Obesidade Grave</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">Todas as orientações constam na NT 08/2023 — Critérios de encaminhamento ao ambulatório de endocrinologia (obeso grave – BH). Obrigatório anexar o Formulário para acompanhamento da obesidade à solicitação de consulta, devidamente preenchido.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ambulatório de Transexualização Infância / Adolescência</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critérios:</strong> Idade de 7 anos a 17 anos, 11 meses e 29 dias. Posteriormente, o adolescente deverá ser encaminhado para o Amb Espec no Processo Transexualizador Adulto.<br><br>O encaminhamento deverá conter história sucinta informando idade do usuário e aspectos relacionados à definição de caso. Informar os seguintes fatores agravantes: sofrimento mental associado a não paridade de gênero, uso de automedicação e procedência de unidade de cumprimento de medida socioeducativa.</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Clínica da Dor</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por Ortopedista, Neurologista, Neurocirurgião ou Reumatologista. A solicitação deverá conter as informações clínicas, motivo do encaminhamento, medicamentos em uso (para dor e comorbidades), exames complementares realizados recentemente. O especialista deverá preencher a Ficha de encaminhamento para a Clínica de Dor do HC/UFMG.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Deformidade Crânio Facial / Fissura Lábio Palatal</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por profissional médico ou dentista, após acolhimento e identificação prévia da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver), hipótese diagnóstica e tratamento.</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Geneticista</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento deverá ser realizado por profissional médico, após acolhimento e identificação prévia da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver), hipótese diagnóstica e tratamento realizado.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Infertilidade</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">Todas as orientações constam na NT 26 - 2025 - Infertilidade Conjugal.</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Medicina Fetal</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critérios:</strong> Malformação fetal na gestação atual (fenda labial ou palatina, sindactilia, microcefalia, hipoplasia ou ausência de membro, meningomielocele / espinha bífida, higroma cístico, onfalocele, gastrosquise, anencefalia, cardiopatia), arritmia cardíaca fetal ou Isoimunização Rh.<br><br>A oferta tem o objetivo de proporcionar diagnóstico, aconselhamento e tratamento de intercorrências ligadas ao feto.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Ortopedia pediátrica / Pé torto congênito</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;"><strong>Critério:</strong> crianças menores de 3 meses. O encaminhamento deverá ser realizado por profissional médico, após acolhimento e identificação da demanda, informando o motivo, descrição do exame clínico, exames complementares (se houver) e hipótese diagnóstica.</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 15px; border: 1px solid #ddd; font-weight: 600;">Oncologia</td>
+                                    <td style="padding: 15px; border: 1px solid #ddd;">O encaminhamento continuará sendo realizado através de guia física GUIA DE REFERÊNCIA E CONTRARREFERÊNCIA. A guia + documentos pessoais + cópia dos exames deverão ser protocolados pelo usuário ou responsável no setor de Oncologia/Central de Regulação, no endereço: Av. João César de Oliveira, 2415 – B. Eldorado.<br><br><strong>Dúvidas:</strong> (31) 992570767 (WhatsApp).<br><br>Conforme orientações da NT 02/2020 — Norma Técnica Oncologia.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SEÇÃO 10 — Agendamentos -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-calendar-check"></i>
                 <h2 class="section-title">Agendamentos</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <p style="color: #6c757d; line-height: 1.8;">Depois que a Regulação/CMC agendar as consultas, a UBS:</p>
+            <div class="section-content">
 
-                <div class="step-list" style="margin-top: 15px;">
-                    <ol>
-                        <li>Receberá o relatório dos agendamentos, <strong>por e-mail</strong>, informando as datas e locais de atendimento.</li>
-                        <li>UBS deverá acessar o sistema, <strong>imprimir o protocolo de agendamento</strong>, comunicar ao usuário e confirmar o comparecimento através da tela <strong>Acompanhamento das solicitações de serviço</strong>.</li>
-                    </ol>
-                </div>
+                <div data-search-block>
+                    <p style="color: #6c757d; line-height: 1.8;">Depois que a Regulação/CMC agendar as consultas, a UBS:</p>
 
-                <div class="info-box" style="margin-top: 20px;">
-                    <h4><i class="fas fa-map-marked-alt"></i> Consultas agendadas em Belo Horizonte (PPI)</h4>
-                    <p>As consultas agendadas em Belo Horizonte, através da PPI – Programação Pactuada Integrada terão os protocolos de agendamento impressos na CMC e enviados à UBS via malote para comunicar ao usuário.</p>
+                    <div class="step-list" style="margin-top: 15px;">
+                        <ol>
+                            <li>Receberá o relatório dos agendamentos, <strong>por e-mail</strong>, informando as datas e locais de atendimento.</li>
+                            <li>UBS deverá acessar o sistema, <strong>imprimir o protocolo de agendamento</strong>, comunicar ao usuário e confirmar o comparecimento através da tela <strong>Acompanhamento das solicitações de serviço</strong>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 20px;">
+                        <h4><i class="fas fa-map-marked-alt"></i> Consultas agendadas em Belo Horizonte (PPI)</h4>
+                        <p>As consultas agendadas em Belo Horizonte, através da PPI – Programação Pactuada Integrada terão os protocolos de agendamento impressos na CMC e enviados à UBS via malote para comunicar ao usuário.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 11 — Remarcações e Faltas -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-calendar-times"></i>
                 <h2 class="section-title">Remarcações e Faltas</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <div class="info-box">
-                    <h4><i class="fas fa-calendar-alt"></i> Procedimentos para Remarcação</h4>
-                    <p><strong>Usuário solicita o cancelamento com antecedência, prazo máximo (72 Horas):</strong></p>
-                    <p>A UBS deverá inserir nova solicitação da especialidade requerida, informando a justificativa apresentada pelo usuário no campo "Condições que justificam" ou no tópico: "Anotações" que fica na tela de solicitação, no Menu ao lado.</p>
-                    <p>Caso a Ubs não consiga realizar a iserção na fila de espera poderá enviar email a Central de Marcação de consultas solicitando a inserção do mesmo.</p>
-                    <p><strong>Anexar na nova solicitação:</strong></p>
-                    <ul>
-                        <li>Guia anterior escaneada (se guia física) ou número da solicitação anterior, se realizada no sistema, não esquecer de anexar a Teleconsultoria nas especialidades que precisam.</li>
-                    </ul>
-                    <p>Enviar a solicitação para fila de espera a fim de que sejam reguladas e agendadas novamente.</p>
-                </div>
+            <div class="section-content">
 
-                <div class="alert-box">
-                    <h4><i class="fas fa-exclamation-triangle"></i> Atenção - Prazos e Limites</h4>
-                    <p>No caso do usuário não solicitar o cancelamento da consulta com antecedência o mesmo só poderá solicitar a remarcação da consulta por FALTA, dentro do prazo de 30 dias (considerando a data do agendamento da consulta).</p>
-                    <p>Após esse prazo ele deverá reiniciar todo processo de emissão de nova solicitação pelo médico na UBS.</p>
-                    <p><strong>A remarcação por FALTA só será permitida uma única vez.</strong></p>
-                    <p><strong>Justificativas válidas (internação, doença, óbito familiar etc.).</strong></p>
-                    <p style="margin-top: 10px;">Nos casos em que o usuário não puder comparecer à consulta, favor enviar e-mail para CMC solicitando o cancelamento para que a vaga possa ser reaproveitada.</p>
-                </div>
+                <div data-search-block>
+                    <div class="info-box">
+                        <h4><i class="fas fa-calendar-alt"></i> Procedimentos para Remarcação</h4>
+                        <p><strong>Usuário solicita o cancelamento com antecedência, prazo máximo (72 Horas):</strong></p>
+                        <p>A UBS deverá inserir nova solicitação da especialidade requerida, informando a justificativa apresentada pelo usuário no campo "Condições que justificam" ou no tópico: "Anotações" que fica na tela de solicitação, no Menu ao lado.</p>
+                        <p>Caso a UBS não consiga realizar a inserção na fila de espera poderá enviar e-mail à Central de Marcação de Consultas solicitando a inserção do mesmo.</p>
+                        <p><strong>Anexar na nova solicitação:</strong></p>
+                        <ul>
+                            <li>Guia anterior escaneada (se guia física) ou número da solicitação anterior, se realizada no sistema; não esquecer de anexar a Teleconsultoria nas especialidades que precisam.</li>
+                        </ul>
+                        <p>Enviar a solicitação para fila de espera a fim de que sejam reguladas e agendadas novamente.</p>
+                    </div>
 
-                <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Entenda o fluxo - Acessar NT 25/2025
-                </a>
+                    <div class="alert-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Atenção — Prazos e Limites</h4>
+                        <p>No caso do usuário não solicitar o cancelamento da consulta com antecedência, o mesmo só poderá solicitar a remarcação da consulta por FALTA, dentro do prazo de 30 dias (considerando a data do agendamento da consulta).</p>
+                        <p>Após esse prazo ele deverá reiniciar todo processo de emissão de nova solicitação pelo médico na UBS.</p>
+                        <p><strong>A remarcação por FALTA só será permitida uma única vez.</strong></p>
+                        <p><strong>Justificativas válidas (internação, doença, óbito familiar etc.).</strong></p>
+                        <p style="margin-top: 10px;">Nos casos em que o usuário não puder comparecer à consulta, favor enviar e-mail para CMC solicitando o cancelamento para que a vaga possa ser reaproveitada.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 12 — Solicitação de Retornos -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-redo"></i>
-                <h2 class="section-title">Solicitação de Retorno</h2>
+                <h2 class="section-title">Solicitação de Retornos</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <h3 class="subsection-title">Inserida diretamente pelo CAE / especialista</h3>
-                <ul style="color: #6c757d; line-height: 1.8; margin-left: 20px;">
-                    <li><strong>Tipo:</strong> RETORNO</li>
-                    <li><strong>Especialidade executante</strong></li>
-                    <li><strong>Médico solicitante</strong></li>
-                </ul>
+            <div class="section-content">
 
-                <p style="color: #6c757d; line-height: 1.8; margin-top: 20px;">Nos casos em que exames ficam prontos, UBS pede alteração do status via e-mail para a Regulação/CMC a mesma irá alterar o Status para <strong>"RETORNO AGENDAR"</strong>, no sistema.</p>
+                <div data-search-block>
+                    <h3 class="subsection-title">Inseridas diretamente pelo CAE / Especialistas</h3>
+                    <ul style="color: #6c757d; line-height: 1.8; margin-left: 20px;">
+                            <li>Acessar a tela <strong>Solicitação de Procedimento de Serviço</strong> no sistema Vivver.</li>
+                            <li>Inserir o <strong>Número de Prontuário do Paciente</strong>.</li>
+                            <li>Clicar no <strong>Sinal de (+) Destacado em verde</strong> no topo da tela.</li>
+                            <li>Preencher os campos do tópico dados da Solicitação <strong>Tipo de Serviço: Consulta Especializada</strong>.</li>
+                            <li>No campo Dados da Agenda Preencher todos os tópicos <strong>Campo Procedimento: Consulta Médica em atenção Especializada</strong>.</li>
+                            <li>Tipo de Atendimento Executante <strong>Retorno</strong>.</li>
+                            <li>Para escolher a Especialidade <strong>Preencher clicando no campo CBO</strong>.</li>
+                            <li>Profissional Executante <strong>Nome do Profissional para o Retorno</strong>.</li>
+                            <li>Salvar para enviar para a fila/ <strong>Clicar no Disquete Verde no topo da tela</strong>.
+                                Enviar para fila de espera.
+                            </li>
+                    </ul>
+                    <p style="color: #6c757d; line-height: 1.8; margin-top: 20px;">Nos casos em que exames ficam prontos, UBS pede alteração do status via e-mail para a Regulação/CMC; a mesma irá alterar o Status para <strong>"RETORNO AGENDAR"</strong> no sistema.</p>
 
-                <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
+                </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 13 — Reclassificação de Prioridade -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-level-up-alt"></i>
                 <h2 class="section-title">Reclassificação de Prioridade</h2>
             </div>
             <div class="section-content">
+
                 <div data-search-block>
                     <p style="color: #6c757d; line-height: 1.8;">Quando houver agravamento clínico:</p>
 
@@ -958,108 +1256,126 @@
                             <li>Cirurgias eletivas</li>
                         </ul>
                     </div>
-
-                    <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                        Acessar NT 25/2025
-                    </a>
-
-                    <a href="https://portal.contagem.mg.gov.br/imgeditor/file/Regula%C3%A7%C3%A3o/Nota%20tecnica%20conjunta/NT%2024%20-%202025%20-%20Registro%20e%20Envio%20de%20Relat%C3%B3rio%20para%20Reclassifica%C3%A7%C3%A3o%20de%20Prioridade(2).pdf" class="highlight-link" target="_blank">
-                        <i class="fas fa-file-pdf"></i>
-                        NT Relatório de Prioridade
-                    </a>
                 </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 14 — Contingência -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h2 class="section-title">Contingência (Sistema Fora do Ar)</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <div class="alert-box">
-                    <p>• Se exigir teleconsultoria → <strong>emitir guia física</strong> e realizar teleconsultoria quando sistema voltar.</p>
-                    <p style="margin-top: 10px;">• Se não exigir → <strong>emitir guia física</strong> e UBS deve depois inserir tudo no Vivver.</p>
-                </div>
+            <div class="section-content">
 
-                <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
+                <div data-search-block>
+                    <div class="alert-box">
+                        <p>• Se exigir teleconsultoria → <strong>emitir guia física</strong> e realizar teleconsultoria quando sistema voltar.</p>
+                        <p style="margin-top: 10px;">• Se não exigir → <strong>emitir guia física</strong> e UBS deve depois inserir tudo no Vivver.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- SEÇÃO 15 — Regras Especiais -->
         <div class="content-section">
             <div class="section-header">
                 <i class="fas fa-list-ul"></i>
                 <h2 class="section-title">Regras Especiais</h2>
             </div>
-            <div class="section-content" data-search-block>
-                <ul style="color: #6c757d; line-height: 2; margin-left: 20px; font-size: 1.05rem;">
-                    <li><strong>Especialistas</strong> podem solicitar consultas para outra especialidade via Vivver <strong>sem teleconsultoria</strong>.</li>
-                    <li>Consultas advindas de <strong>UPA ou rede privada não são aceitas</strong> — devem ser refeitas na UBS.</li>
-                    <li>Guias vindas de <strong>fora da rede Contagem</strong> devem ser cadastradas pela UBS e anexadas digitalmente na tela de solicitação de procedimento de serviço.</li>
-                </ul>
+            <div class="section-content">
 
-                <a href="https://portal.contagem.mg.gov.br/central-de-marcacao-de-consultas/" class="highlight-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    Acessar NT 25/2025
-                </a>
-            </div>
-        </div>
-
-        <div class="content-section">
-            <div class="section-header">
-                <i class="fas fa-clipboard-list"></i>
-                <h2 class="section-title">Síntese Final Unificada</h2>
-            </div>
-            <div class="section-content" data-search-block>
-                <p style="color: #495057; font-weight: 600; margin-bottom: 15px;">Para solicitar qualquer consulta especializada na rede Contagem:</p>
-
-                <div class="step-list">
-                    <ol>
-                        <li>Verificar se a especialidade <strong>exige teleconsultoria</strong>.</li>
-                        <li>Se sim → realizar <strong>Teleconsultoria FELUMA</strong>, aguardar resposta, registrar "Desfecho", e só então solicitar no Vivver.</li>
-                        <li>Inserir solicitação no Vivver com <strong>JUSTIFICATIVA CLÍNICA COMPLETA</strong>.</li>
-                        <li><strong>Anexar PDF da teleconsultoria</strong> na solicitação e no SOAP.</li>
-                        <li>Enviar para fila com:
-                            <ul style="margin-top: 10px;">
-                                <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
-                                <li><strong>Motivo:</strong> REGULAÇÃO</li>
-                            </ul>
-                        </li>
-                        <li><strong>Acompanhar pendências diariamente.</strong></li>
-                        <li>Após agendamento → <strong>comunicar e confirmar no sistema.</strong></li>
-                        <li>Seguir regras de falta, remarcação, retornos e reclassificação de prioridade.</li>
-                        <li>Em contingência → <strong>usar guia física</strong> e depois registrar no Vivver.</li>
-                    </ol>
+                <div data-search-block>
+                    <ul style="color: #6c757d; line-height: 2; margin-left: 20px; font-size: 1.05rem;">
+                        <li><strong>Especialistas</strong> podem solicitar consultas para outra especialidade via Vivver <strong>sem teleconsultoria</strong>.</li>
+                        <li>Consultas advindas de <strong>UPA ou rede privada não são aceitas</strong> — devem ser refeitas na UBS.</li>
+                        <li>Guias vindas de <strong>fora da rede Contagem</strong> devem ser cadastradas pela UBS e anexadas digitalmente na tela de solicitação de procedimento de serviço.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
+        <!-- SEÇÃO 16 — Síntese Final Unificada -->
+        <div class="content-section">
+            <div class="section-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h2 class="section-title">Síntese Final Unificada/Teleconsultorias/Casos sem Resolução na APS</h2>
+            </div>
+            <div class="section-content">
+
+                <div data-search-block>
+                    <p style="color: #495057; font-weight: 600; margin-bottom: 15px;">Para solicitar qualquer consulta especializada na rede Contagem:</p>
+
+                    <div class="step-list">
+                        <ol>
+                            <li>Verificar se a especialidade <strong>exige teleconsultoria</strong>.</li>
+                            <li>Se sim → realizar <strong>Teleconsultoria</strong>, aguardar resposta, registrar "Desfecho", e só então solicitar no Vivver.</li>
+                            <li>Inserir solicitação no Vivver com <strong>JUSTIFICATIVA CLÍNICA COMPLETA</strong>.</li>
+                            <li><strong>Anexar PDF da teleconsultoria</strong> na solicitação e no SOAP.</li>
+                            <li>
+                                Enviar para fila com:
+                                <ul style="margin-top: 10px;">
+                                    <li><strong>Prioridade:</strong> CONSULTA ESPECIALIZADA – UBS</li>
+                                    <li><strong>Motivo:</strong> REGULAÇÃO</li>
+                                </ul>
+                            </li>
+                            <li><strong>Acompanhar pendências diariamente.</strong></li>
+                            <li>Após agendamento → <strong>comunicar e confirmar no sistema.</strong></li>
+                            <li>Seguir regras de falta, remarcação, retornos e reclassificação de prioridade.</li>
+                            <li>Em contingência → <strong>usar guia física</strong> e depois registrar no Vivver.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- ==================== RODAPÉ ==================== -->
+    <footer class="footer">
         <i class="fas fa-heartbeat"></i>
-        <p><strong>Diretoria de Regulação Ceaps/CMC</strong></p>
+        <p><strong>Diretoria de Regulação do Acesso</strong></p>
         <p>Sistema de Agendamento e Procedimentos</p>
-        <p>Página criada por Ana P. A. Silva - Matricula 201704 Assistente Administrativo Ceaps</p>
-        <p>© 2024 - Todos os direitos reservados</p>
-    </div>
+        <p>Página criada por Ana P. A. Silva — Matrícula 201704 — Assistente Administrativo - Diretoria de Regulação</p>
+        <p>© 2025 — Todos os direitos reservados</p>
+    </footer>
 
     <script>
         // Animação de entrada da página
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             document.body.style.opacity = '1';
         });
 
-        // Pesquisa automática por blocos (data-search-block)
+        // ========== MENU FLUTUANTE — TOGGLE ==========
         (function () {
-            const input = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearInlineButton');
+            const panel  = document.getElementById('floatingPanel');
+            const toggle = document.getElementById('panelToggle');
+            const arrow  = toggle.querySelector('.tab-arrow');
 
+            // Começa aberto por padrão
+            let isCollapsed = false;
+
+            toggle.addEventListener('click', function () {
+                isCollapsed = !isCollapsed;
+                if (isCollapsed) {
+                    panel.classList.add('collapsed');
+                    arrow.classList.remove('fa-chevron-left');
+                    arrow.classList.add('fa-chevron-right');
+                } else {
+                    panel.classList.remove('collapsed');
+                    arrow.classList.remove('fa-chevron-right');
+                    arrow.classList.add('fa-chevron-left');
+                }
+            });
+        })();
+        // ========== FIM DO MENU FLUTUANTE ==========
+
+        // Pesquisa por blocos (data-search-block)
+        (function () {
+            const input       = document.getElementById('searchInput');
+            const clearBtn    = document.getElementById('clearInlineButton');
             const allSections = Array.from(document.querySelectorAll('.content-section'));
-            const blocks = Array.from(document.querySelectorAll('[data-search-block]'));
+            const blocks      = Array.from(document.querySelectorAll('[data-search-block]'));
 
             function escapeRegExp(str) {
                 return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1067,22 +1383,18 @@
 
             function removeMarks(root) {
                 root.querySelectorAll('mark').forEach(m => {
-                    const text = document.createTextNode(m.textContent);
-                    m.replaceWith(text);
+                    m.replaceWith(document.createTextNode(m.textContent));
                 });
             }
 
             function highlightInBlock(block, term) {
                 removeMarks(block);
-
                 const regex = new RegExp(escapeRegExp(term), 'gi');
 
                 const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
-                    acceptNode: (node) => {
+                    acceptNode(node) {
                         if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-                        const parent = node.parentNode;
-                        if (!parent) return NodeFilter.FILTER_REJECT;
-                        const tag = parent.nodeName.toLowerCase();
+                        const tag = node.parentNode?.nodeName.toLowerCase();
                         if (tag === 'script' || tag === 'style') return NodeFilter.FILTER_REJECT;
                         return NodeFilter.FILTER_ACCEPT;
                     }
@@ -1094,37 +1406,29 @@
                 textNodes.forEach(node => {
                     const value = node.nodeValue;
                     if (!regex.test(value)) return;
-
                     const frag = document.createDocumentFragment();
                     let lastIndex = 0;
                     regex.lastIndex = 0;
-
                     let match;
                     while ((match = regex.exec(value)) !== null) {
-                        const start = match.index;
-                        const end = start + match[0].length;
-
-                        frag.appendChild(document.createTextNode(value.slice(lastIndex, start)));
-
+                        frag.appendChild(document.createTextNode(value.slice(lastIndex, match.index)));
                         const mark = document.createElement('mark');
-                        mark.textContent = value.slice(start, end);
+                        mark.textContent = match[0];
                         frag.appendChild(mark);
-
-                        lastIndex = end;
+                        lastIndex = match.index + match[0].length;
                     }
-
                     frag.appendChild(document.createTextNode(value.slice(lastIndex)));
                     node.parentNode.replaceChild(frag, node);
                 });
             }
 
             function applySearch() {
-                const term = input.value.trim();
+                const term    = input.value.trim();
                 const hasText = term.length > 0;
 
                 clearBtn.style.display = hasText ? 'flex' : 'none';
 
-                allSections.forEach(sec => sec.classList.remove('search-hidden'));
+                allSections.forEach(s => s.classList.remove('search-hidden'));
                 blocks.forEach(b => b.classList.remove('search-hidden', 'search-match'));
 
                 if (!hasText) {
@@ -1133,32 +1437,28 @@
                 }
 
                 const termLower = term.toLowerCase();
-                let firstVisibleBlock = null;
+                let firstVisible = null;
 
                 blocks.forEach(block => {
-                    const text = block.textContent.toLowerCase();
-                    const match = text.includes(termLower);
-
+                    const match = block.textContent.toLowerCase().includes(termLower);
                     if (!match) {
                         block.classList.add('search-hidden');
                         removeMarks(block);
                     } else {
-                        block.classList.remove('search-hidden');
                         block.classList.add('search-match');
-
                         highlightInBlock(block, term);
-
-                        if (!firstVisibleBlock) firstVisibleBlock = block;
+                        if (!firstVisible) firstVisible = block;
                     }
                 });
 
                 allSections.forEach(section => {
-                    const visibleBlockInside = section.querySelector('[data-search-block]:not(.search-hidden)');
-                    if (!visibleBlockInside) section.classList.add('search-hidden');
+                    if (!section.querySelector('[data-search-block]:not(.search-hidden)')) {
+                        section.classList.add('search-hidden');
+                    }
                 });
 
-                if (firstVisibleBlock) {
-                    firstVisibleBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (firstVisible) {
+                    firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
 
@@ -1183,14 +1483,10 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     </script>
 </body>
 </html>
+
